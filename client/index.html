@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鐵達尼號直播空間</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
+		<style>
+			body {
+				margin: 20pt;
+			}
+
+			video {
+				width: 100%;
+				height: auto;
+			}
+		</style>
+</head>
+<body>
+    <h1>歡迎來到鐵達尼號直播空間</h1>
+    <img src="/Users/ysjhs\Downloads/鐵達尼號.png" alt="鐵達尼號 Logo" class="logo">
+	<div id="roleSelection">
+        <h2>選擇身份</h2>
+        <button id="hostRoleBtn" class="orange-button">船長</button>
+        <button id="audienceRoleBtn" class="LightGray-button" >船客</button>
+    </div>
+
+    <div id="hostSection">
+        <h2>船長資料設定</h2>
+        <label for="hostnameInput">船隻名字:</label>
+        <input type="text" id="hostnameInput" placeholder="Enter your name">
+	<br>
+	<input type="submit" onclick="loginClick(this)" class="primary" />
+        <button id="backToHomePageBtn">回到主頁</button>
+	<br>
+        <video id="localVideo" autoplay muted hidden></video>
+    </div>
+
+    <div id="audienceSection">
+        <h2>船客資料設定</h2>
+        <label for="audiencenameInput">船客名字:</label>
+        <input type="text" id="audiencenameInput" placeholder="Enter your name">
+     	<br>
+        <label for="hostToWatchInput">船客你要上哪艘船:</label>
+        <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
+        <br>
+        <button id="joinStreamBtn">上船</button>	
+	<button id="backToHomePageBtn">回到主頁</button>
+        <br>
+	<video id="remoteVideo" autoplay hidden></video>
+    </div>
+
+    <div id="otherElements" hidden>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-6">
+				<video id="localVideo" autoplay muted></video>
+				<b><span id="showLocalUserName"></span></b>
+			</div>
+			<div class="col-sm-12 col-md-6">
+				<video id="remoteVideo" autoplay></video>
+				<b><span id="showRemoteUserName"></span></b>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<div id="callInitiator">
+		<input id="callToUsernameInput" type="text" placeholder="username to call" />
+		<br />
+		<button onclick="callBtnClick()" class="primary">Call</button>
+	</div>
+	<div id="callReceiver" style="display: none">
+		<button id="answerBtn" class="primary">Answer</button>
+		<button id="declineBtn" class="secondary">Decline</button>
+	</div>
+	<div id="callOngoing" style="display: none">
+		<button onclick="hangUpClick()" class="secondary">Hang Up</button>
+	</div>
+    </div>    
+
+    <script src="webrtc.js"></script>
+    <!--<script src="chatroom.js"></script>-->
+    <link rel="stylesheet" href="boat.css">
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+</body>
+</html>
+

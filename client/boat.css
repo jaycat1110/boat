@@ -1,0 +1,71 @@
+@font-face {
+  font-family: 'cwTeXFangSong';
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot);
+  src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot?#iefix) format('embedded-opentype'),
+       url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff2) format('woff2'),
+       url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff) format('woff'),
+       url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.ttf) format('truetype');
+}
+h1 {
+    font-size: 36pt;
+    font-family: 'cwTeXFangSong', serif; /* 添加後備字體 */
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 200px;
+    height: auto;
+    background-image:url('Users/ysjhs/Downloads/鐵達尼號.png');
+    background-position: center;
+}
+
+/* 按鈕樣式 */
+.button-group {
+    margin-top: 20px;
+}
+
+.orange-button {
+    background-color: orange;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.orange-button:hover {
+    background-color: darkorange;
+}
+.button-group {
+    margin-top: 20px;
+}
+
+.LightGray-button {
+    background-color: LightGray;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 10px; 	
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.LightGray-button:hover {
+    background-color: Gray;
+}
+
