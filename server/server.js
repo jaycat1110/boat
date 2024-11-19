@@ -3,7 +3,7 @@ import { createServer } from 'https';
 import WebSocket, { WebSocketServer } from 'ws';
 import express from 'express';
 
-const app = express();
+const app = express()
 const HTTPS_PORT = 8443;
 app.use(express.static('client'));
 
