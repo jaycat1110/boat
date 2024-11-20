@@ -30,7 +30,7 @@ const callToUsernameInput = document.getElementById('callToUsernameInput');
 const callOngoing = document.getElementById('callOngoing');
 const callInitiator = document.getElementById('callInitiator');
 const callReceiver = document.getElementById('callReceiver');
-
+/*
 const hostRoleBtn = document.getElementById("hostRoleBtn");
 const audienceRoleBtn = document.getElementById("audienceRoleBtn");
 const backToHomePageBtn=document.getElementById("backToHomePageBtn");
@@ -38,11 +38,12 @@ const backToHomePageBtn=document.getElementById("backToHomePageBtn");
 const roleSelection = document.getElementById("roleSelection");
 const hostSection = document.getElementById("hostSection");
 const audienceSection = document.getElementById("audienceSection");
+*/
 // #region page elements
 /**
  * @param {HTMLInputElement} self
  */
-
+/*
 document.addEventListener("DOMContentLoaded", () => {
 
   // 預設隱藏 Host 和 Audience 區域
@@ -70,18 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-function loginClick(self) {
-	if (/Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-		self.outerHTML = /* html */ `
-		<button class="primary" onclick="share('m')">Share Media</button>`;
-	}
-	else {
-		self.outerHTML = /* html */ `
-		<button class="primary" onclick="share('m')">Share Media</button>
-		<button class="primary" onclick="share('s')">Share Screen</button>`;
-	}
-}
+*/
 
 /**
  * Initiate call to any user i.e. send message to server
