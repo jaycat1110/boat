@@ -27,18 +27,16 @@
 	<br>
     </div>
 
-    <div>
+  <div>
 		<h3><span id="allUsers"></span></h3>
 	</div>
 
   <div id="hostView">
-   <h2>Host View (直播主)</h2>
-   <button class="primary" onclick="share('m')">Share Media</button>
-   <video id="localVideo" autoplay muted></video>
-   <b><span id="showLocalUserName"></span></b>
-   <div id="callOngoing">
+    <h2>Host View (直播主)</h2>
+    <button class="primary" onclick="share('m')">Share Media</button>
+    <video id="localVideo" autoplay muted></video>
+    <b><span id="showLocalUserName"></span></b>
     <button onclick="hangUpClick()" class="secondary">End Broadcast</button>
-   </div>
   </div>
   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="host.js"></script>

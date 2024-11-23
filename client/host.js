@@ -37,6 +37,9 @@ function gotMessageFromServer(message) {
 	const data = JSON.parse(message.data);
 
     switch (data.type) {
+		case 'login':
+			handleLogin(data.success, data.allUsers, data.share);
+			break;
         case 'hangup':
 			handelHangUp();
 			break;
@@ -50,6 +53,7 @@ function gotMessageFromServer(message) {
 }
 
 function getUserMediaSuccess(stream) {
+	console.log('Media stream obtained successfully');
 	localStream = stream;
 	localVideo.srcObject = stream;
 	yourConn = new RTCPeerConnection(peerConnectionConfig);
@@ -60,6 +64,8 @@ function getUserMediaSuccess(stream) {
 }
 
 function setupConnection(stream) {
+	yourConn = new RTCPeerConnection(peerConnectionConfig);
+
 	yourConn.onicecandidate = (event) => {
 		console.log('onicecandidate: ', event.candidate);
 		if (event.candidate) {
@@ -76,7 +82,9 @@ function setupConnection(stream) {
 		remoteVideo.srcObject = event.streams[0];
 		remoteVideo.hidden = false;
 	};
-	yourConn.addStream(stream);
+	stream.getTracks().forEach((track) => {
+        yourConn.addTrack(track, stream);
+    });
 }
 
 function send(msg) {
@@ -115,10 +123,44 @@ function handleLogin(success, allUsers, share) {
 					audio: true,
 				})
 				.then(getUserMediaSuccess)
-				.catch(errorHandler);
+				.catch((error) => {
+					console.error('Error accessing media devices:', error);
+					alert('Unable to access camera or microphone. Please check your browser permissions.');
+				});
 			break;
 	}
 }
+
+
+// Define the event handler functions
+function handleAnswerClick() {
+	connectedUser = name;
+	yourConn
+		.setRemoteDescription(new RTCSessionDescription(offer))
+		.then(() => {
+			while (candidateQueue.length) {
+				const candidate = candidateQueue.shift();
+				yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
+			}
+		})
+		.catch(errorHandler);
+
+	// Create an answer to an offer
+	yourConn
+		.createAnswer()
+		.then((answer) => yourConn.setLocalDescription(answer))
+		.then(() => {
+			send({
+				type: 'answer',
+				name: connectedUser,
+				answer: yourConn.localDescription,
+			});
+		})
+		.catch((error) => {
+			alert('Error when creating an answer: ' + error);
+		});
+}
+
 
 function handleLeave() {
 	handelHangUp();
@@ -128,7 +170,8 @@ function handelHangUp() {
 	connectedUser = null;
 	//showRemoteUsername.innerHTML = '';
 
-	callOngoing.style.display = 'none';
+	hostSection.style.display = "block";
+    hostView.style.display = "none";
 
 	yourConn.close();
 
