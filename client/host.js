@@ -104,16 +104,33 @@ function share(mediaType) {
 			name: localUser,
 			share: mediaType,
 		});
+		if (mediaType === 'm') {
+            navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true,
+            }).then(getUserMediaSuccess)
+            .catch((error) => {
+				console.error('Error accessing media devices:', error);
+				alert('Unable to access camera or microphone. Please check your browser permissions.');
+			});
+        } 
+		else {
+            console.error('Invalid mediaType');
+        }
+    } 
+	else {
+        alert('Username cannot be blank!');
 	}
+	
 }
-
+/*
 function handleLogin(success, allUsers, share) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
 	}
 
-	refreshUserList(allUsers);
+	
 
 	switch (share) {
 		case 'm':
@@ -130,7 +147,8 @@ function handleLogin(success, allUsers, share) {
 			break;
 	}
 }
-
+*/
+//這行有用 refreshUserList(allUsers);
 
 // Define the event handler functions
 function handleAnswerClick() {
