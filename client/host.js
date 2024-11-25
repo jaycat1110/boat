@@ -11,6 +11,8 @@ const startscreem = document.getElementById("startscreem");
 const hostSection = document.getElementById("hostSection");
 const localVideo = document.getElementById('localVideo');
 const hostView = document.getElementById("hostView");
+const turnOffVideoBtn = document.getElementById('turnOffVideoBtn');
+const turnOnVideoBtn = document.getElementById('turnOnVideoBtn');
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -179,6 +181,52 @@ function handleAnswerClick() {
 		});
 }
 
+turnOffVideoBtn.addEventListener('click', () => {
+    turnOffVideo();
+    turnOffVideoBtn.style.display = 'none';
+    turnOnVideoBtn.style.display = 'inline';
+});
+
+turnOnVideoBtn.addEventListener('click', () => {
+    turnOnVideo();
+    turnOffVideoBtn.style.display = 'inline';
+    turnOnVideoBtn.style.display = 'none';
+});
+
+function turnOffVideo() {
+    if (localStream) {
+        // 停止所有視訊軌道
+        localStream.getVideoTracks().forEach((track) => {
+            track.stop();
+        });
+
+        // 清除並隱藏本地視訊
+        localVideo.srcObject = null;
+        localVideo.style.display = 'none';
+    } else {
+        console.warn('No local stream found to turn off video.');
+    }
+}
+
+function turnOnVideo() {
+    navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+            localStream = stream;
+
+            // 顯示本地視訊畫面
+            localVideo.srcObject = stream;
+            localVideo.style.display = 'block';
+
+            // 添加視訊軌道到 RTCPeerConnection
+            stream.getVideoTracks().forEach((track) => {
+                yourConn.addTrack(track, stream);
+            });
+        })
+        .catch((error) => {
+            console.error('Error restarting video:', error);
+        });
+}
 
 function handleLeave() {
 	handelHangUp();
@@ -190,6 +238,11 @@ function handelHangUp() {
 
 	hostSection.style.display = "block";
     hostView.style.display = "none";
+
+	navigator.mediaDevices.getUserMedia({
+		video: false,
+		audio: false,
+	})
 
 	yourConn.close();
 
