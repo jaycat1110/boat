@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>鐵達尼號直播空間</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
+    <link rel="icon" type="icon.png" href="icon.png">
+    <link rel="stylesheet" type="icon.png" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
 		<style>
 			body {
 				margin: 20pt;
@@ -17,20 +18,24 @@
 		</style>
 </head>
 <body>
-    <h1>歡迎來到鐵達尼號直播空間</h1>
-    <img src="/Users/ysjhs\Downloads/鐵達尼號.png" alt="鐵達尼號 Logo" class="logo">
+    <img src="icon.png" alt="鐵達尼號 logo" class="logo">
+    <br>
+    <h1 align="center">歡迎來到鐵達尼號直播空間!</h1>
+    <br>
+    <!--<hr>-->
+    <!--<img src="/Users/ysjhs\Downloads/鐵達尼號.png" alt="鐵達尼號 Logo" class="logo">-->
 	<div id="roleSelection">
-        <h2>選擇身份</h2>
-        <button id="hostRoleBtn" class="orange-button">船長</button>
-        <button id="audienceRoleBtn" class="LightGray-button" >船客</button>
+        <h2 align="center">選擇身份</h2>
+		<a href="/host.html" class="orange-button">船長</a>
+		<a href="/audience.html" class="LightGray-button">船客</a>
     </div>
-
+<!--
     <div id="hostSection">
         <h2>船長資料設定</h2>
         <label for="hostnameInput">船隻名字:</label>
         <input type="text" id="hostnameInput" placeholder="Enter your name">
 	<br>
-	<input type="submit" onclick="loginClick(this)" class="primary" />
+	<a href="/host.html" class="button">開船</a>
         <button id="backToHomePageBtn">回到主頁</button>
 	<br>
         <video id="localVideo" autoplay muted hidden></video>
@@ -44,12 +49,15 @@
         <label for="hostToWatchInput">船客你要上哪艘船:</label>
         <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
         <br>
-        <button id="joinStreamBtn">上船</button>	
+        <a href="/audience.html" class="button">上船</a>	
 	<button id="backToHomePageBtn">回到主頁</button>
         <br>
 	<video id="remoteVideo" autoplay hidden></video>
     </div>
-
+	<div>
+		<h3><span id="allUsers"></span></h3>
+	</div>
+-->
     <div id="otherElements" hidden>
 	<div class="container">
 		<div class="row">

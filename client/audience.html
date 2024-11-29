@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>渡船口</title>
+ <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
+  <style>
+   body {
+    margin: 20pt;
+   }
+
+   video {
+    width: 100%;
+    height: auto;
+   }
+  </style>
+ </head>
+ <body>
+    <div id="audienceSection">
+        <h2>船客資料設定</h2>
+        <label for="audiencenameInput">船客名字:</label>
+        <input type="text" id="audiencenameInput" placeholder="Enter your name">
+     	<br>
+        <label for="hostToWatchInput">船客你要上哪艘船:</label>
+        <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
+        <br>
+        <button id="startwatch">上船</button>
+        <a href="/" class="button">回到碼頭</a>	
+        <br>
+	<video id="remoteVideo" autoplay hidden></video>
+    </div>
+    
+    <div>
+		<h3><span id="allUsers"></span></h3>
+	</div>
+
+  <div id="audienceView" hidden>
+   <h2>船艙開趴囉~</h2>
+   <video id="remoteVideo" autoplay></video>
+   <b><span id="showRemoteUserName"></span></b>
+  </div>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="webrtc.js" type="module"></script>
+ </body>
+</html>

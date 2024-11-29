@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>船長室</title>
+ <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
+  <style>
+   body {
+    margin: 20pt;
+   }
+
+   video {
+    width: 100%;
+    height: auto;
+   }
+  </style>
+ </head>
+ <body>
+    <div id="hostSection">
+        <h2>船長資料設定</h2>
+        <label for="hostnameInput">船隻名字:</label>
+        <input type="text" id="hostnameInput" placeholder="Enter your name">
+	<br>
+    <button id="startscreem">開船</button>
+	<a href="/" class="button">回到碼頭</a>
+	<br>
+    </div>
+
+  <div>
+		<h3><span id="allUsers"></span></h3>
+	</div>
+
+ <div id="hostView">
+    <h2>船長開趴囉~</h2>
+    <button class="primary" onclick="share('m')">Share Media</button>
+    <video id="localVideo" autoplay muted></video>
+    <b><span id="showLocalUserName"></span></b>
+    <button id="turnOffVideoBtn">關閉視訊</button>
+    <button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
+    <br>
+    <button onclick="hangUpClick()" class="secondary">End Broadcast</button>
+  </div>
+	 
+<!-- <div class="container">
+<!-- 左側影片視訊區域 
+<div id="hostView">
+    <h2>船長開趴囉~</h2>
+    <button class="primary" onclick="share('m')">Share Media</button>
+    <video id="localVideo" autoplay muted></video>
+    <b><span id="showLocalUserName"></span></b>
+    <button id="turnOffVideoBtn">關閉視訊</button>
+    <button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
+    <br>
+    <button onclick="hangUpClick()" class="secondary">End Broadcast</button>
+  </div>-->
+
+<!-- 右側聊天室區域 
+<div class="chat-section">
+    <div id="chatWindow" class="chat-window">
+	<!-- 聊天內容將會插入這裡 
+    </div>
+    <div class="chat-input">
+	<input type="text" id="chatMessage" placeholder="輸入訊息...">
+	<button id="sendButton">送出</button>
+    </div>
+</div>-->
+</div>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="host.js"></script>
+  <link rel="stylesheet" href="boat.css">
+ </body>
+</html>
