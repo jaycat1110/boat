@@ -46,6 +46,12 @@ function gotMessageFromServer(message) {
 		case 'login':
 			handleLogin(data.success, data.allUsers, data.share);
 			break;
+		case 'candidate':
+			handleCandidate(data.candidate);
+			break;
+		case 'leave':
+			handleLeave();
+			break;
         case 'hangup':
 			handelHangUp();
 			break;

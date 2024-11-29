@@ -18,29 +18,55 @@
  </head>
  <body>
     <div id="audienceSection">
-        <h2>船客資料設定</h2>
-        <label for="audiencenameInput">船客名字:</label>
-        <input type="text" id="audiencenameInput" placeholder="Enter your name">
-     	<br>
-        <label for="hostToWatchInput">船客你要上哪艘船:</label>
-        <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
-        <br>
-        <button id="startwatch">上船</button>
-        <a href="/" class="button">回到碼頭</a>	
-        <br>
-	<video id="remoteVideo" autoplay hidden></video>
+      <h2>船客資料設定</h2>
+      <label for="audiencenameInput">船客名字:</label>
+      <input type="text" id="audiencenameInput" placeholder="Enter your name">
+      <br>
+      <label for="hostToWatchInput">船客你要上哪艘船:</label>
+      <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
+      <br>
+      <button id="startwatch">上船</button>
+      <a href="/" class="button">回到碼頭</a>	
+      <br>
+   </div>
+
+   <!-- <div class="container">
+ 左側影片視訊區域 
+<div id="hostView">
+    <h2>船長開趴囉~</h2>
+    <button class="primary" onclick="share('m')">Share Media</button>
+    <video id="localVideo" autoplay muted></video>
+    <b><span id="showLocalUserName"></span></b>
+    <button id="turnOffVideoBtn">關閉視訊</button>
+    <button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
+    <br>
+    <button onclick="hangUpClick()" class="secondary">End Broadcast</button>
+  </div>-->
+
+<!-- 右側聊天室區域 
+<div class="chat-section">
+    <div id="chatWindow" class="chat-window">
+	 聊天內容將會插入這裡 
     </div>
+    <div class="chat-input">
+	<input type="text" id="chatMessage" placeholder="輸入訊息...">
+	<button id="sendButton">送出</button>
+    </div>
+</div>-->
     
-    <div>
+   <div>
 		<h3><span id="allUsers"></span></h3>
 	</div>
 
-  <div id="audienceView" hidden>
-   <h2>船艙開趴囉~</h2>
-   <video id="remoteVideo" autoplay></video>
-   <b><span id="showRemoteUserName"></span></b>
-  </div>
-  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-  <script src="webrtc.js" type="module"></script>
+   <div id="audienceView" hidden>
+      <h2>船艙開趴囉~</h2>
+      <video id="remoteVideo" autoplay></video>
+      <b><span id="showRemoteUserName"></span></b>
+      <br>
+      <button onclick="hangUpClick()" class="secondary">離開趴踢</button>
+   </div>
+   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+   <script src="audience.js"></script>
+   <link rel="stylesheet" href="boat.css">
  </body>
 </html>
