@@ -4,6 +4,10 @@ let localUser;
 let localStream;
 let serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
 
+const peerConnectionConfig = {
+	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
+};
+
 const showUsername = document.getElementById('showLocalUserName');
 const callOngoing = document.getElementById('callOngoing');
 const hostnameInput = document.getElementById('hostnameInput');
