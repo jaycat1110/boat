@@ -52,7 +52,7 @@ h1 {
 
 /* 視訊區域樣式 */
 video {
-    width: 70%;
+    width: 50%;
     height: 99%;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -141,8 +141,8 @@ header {
 
 /* Logo 樣式 */
 .logo {
-    width: 200%;
-    height: 200%;
+    width: 20%;
+    height: 30%;
     background-image: url('Users/ysjhs/Downloads/鐵達尼號.png');
     background-position: center;
     background-size: cover;
