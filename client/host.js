@@ -8,9 +8,12 @@ const peerConnectionConfig = {
 	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
 };
 
+serverConnection.onmessage = gotMessageFromServer;
+
 const showUsername = document.getElementById('showLocalUserName');
 const callOngoing = document.getElementById('callOngoing');
 const hostnameInput = document.getElementById('hostnameInput');
+const showAllUsers = document.getElementById('allUsers');
 const startscreem = document.getElementById("startscreem");
 const hostSection = document.getElementById("hostSection");
 const localVideo = document.getElementById('localVideo');
@@ -30,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 隱藏角色選擇區，顯示 直播 區域
     hostSection.style.display = "none";
     hostView.style.display = "block";
+	showUsername.innerHTML = hostnameInput.value;
   });
 });
 
@@ -103,6 +107,10 @@ function setupConnection(stream) {
     });
 }
 
+function errorHandler(error) {
+	console.error(error);
+}
+
 function send(msg) {
 	console.log('sending:\n', msg);
 	serverConnection.send(JSON.stringify(msg));
@@ -113,9 +121,8 @@ function send(msg) {
  */
 function share(mediaType) {
 	localUser = hostnameInput.value;
-	showUsername.innerHTML = localUser;
 	if (localUser.length > 0) {
-		send({
+		send({//按下share才確認名稱(需調整)
 			type: 'login',
 			name: localUser,
 			share: mediaType,
@@ -139,32 +146,18 @@ function share(mediaType) {
 	}
 	
 }
-/*
+
 function handleLogin(success, allUsers, share) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
 	}
 
-	
+	refreshUserList(allUsers);
 
-	switch (share) {
-		case 'm':
-			navigator.mediaDevices
-				.getUserMedia({
-					video: true,
-					audio: true,
-				})
-				.then(getUserMediaSuccess)
-				.catch((error) => {
-					console.error('Error accessing media devices:', error);
-					alert('Unable to access camera or microphone. Please check your browser permissions.');
-				});
-			break;
-	}
+	
 }
-*/
-//這行有用 refreshUserList(allUsers);
+
 
 // Define the event handler functions
 function handleAnswerClick() {
@@ -253,16 +246,21 @@ function handelHangUp() {
 	hostSection.style.display = "block";
     hostView.style.display = "none";
 
-	navigator.mediaDevices.getUserMedia({
-		video: false,
-		audio: false,
-	})
 
 	yourConn.close();
 
 	// Reset the connection
 	yourConn = new RTCPeerConnection(peerConnectionConfig);
 	setupConnection(localStream);
+}
+
+/**
+ * @param {string[]} users
+ */
+function refreshUserList(users) {
+	const allAvailableUsers = users.join(', ');
+	console.log('All available users', allAvailableUsers);
+	showAllUsers.innerHTML = 'Available users: ' + allAvailableUsers;
 }
 
 // 送出訊息按鈕事件

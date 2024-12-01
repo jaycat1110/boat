@@ -2,11 +2,16 @@ let yourConn;
 let connectedUser;
 let serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
 
+const peerConnectionConfig = {
+	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
+};
+
 const startwatch = document.getElementById("startwatch");
 const audienceSection = document.getElementById("audienceSection");
 const remoteVideo = document.getElementById('remoteVideo');
 const audienceView = document.getElementById("audienceView");
 const hostToWatchInput = document.getElementById('hostToWatchInput');
+const showRemoteUsername = document.getElementById('showRemoteUserName');
 
 
 const chatWindow = document.getElementById("chatWindow");
@@ -17,12 +22,7 @@ const sendButton = document.getElementById("sendButton");
 document.addEventListener("DOMContentLoaded", () => {
 
     audienceView.style.display = "none";
-    // 當 開船 按鈕被按下時
-    startwatch.addEventListener("click", () => {
-    // 隱藏角色選擇區，顯示 直播 區域
-    audienceSection.style.display = "none";
-    audienceView.style.display = "block";
-  });
+    // 當進入此畫面時隱藏直播畫面
 });
 
 function callBtnClick() {
@@ -33,6 +33,8 @@ function callBtnClick() {
 		console.log('create an offer to ', hostToWatch);
 		console.log('connection state', yourConn.connectionState);
 		console.log('signalling state', yourConn.signalingState);
+		audienceSection.style.display = "none";
+    	audienceView.style.display = "block";
 		yourConn
 			.createOffer()
 			.then((offer) => {
@@ -50,15 +52,6 @@ function callBtnClick() {
 				console.error('Error when creating an offer', error);
 			});
 	} else alert("username can't be blank!");
-}
-
-function hangUpClick() {
-	send({
-		type: 'hangup',
-		name: localUser,
-	});
-
-	handelHangUp();
 }
 
 window.addEventListener('beforeunload', () => {

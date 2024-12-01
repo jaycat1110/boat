@@ -25,7 +25,9 @@
       <label for="hostToWatchInput">船客你要上哪艘船:</label>
       <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
       <br>
-      <button id="startwatch">上船</button>
+      <h3><span id="allUsers"></span></h3>
+      <br>
+      <button class="primary" onclick="callBtnClick()" >上船</button>
       <a href="/" class="button">回到碼頭</a>	
       <br>
    </div>
@@ -54,16 +56,13 @@
     </div>
 </div>-->
     
-   <div>
-		<h3><span id="allUsers"></span></h3>
-	</div>
 
    <div id="audienceView" hidden>
       <h2>船艙開趴囉~</h2>
       <video id="remoteVideo" autoplay></video>
       <b><span id="showRemoteUserName"></span></b>
       <br>
-      <button onclick="hangUpClick()" class="secondary">離開趴踢</button>
+      <button onclick="handelHangUp()" class="secondary">離開趴踢</button>
    </div>
    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
    <script src="audience.js"></script>
