@@ -1,4 +1,155 @@
+/* 字體定義 */
 @font-face {
+    font-family: 'cwTeXFangSong';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot);
+    src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot?#iefix) format('embedded-opentype'),
+         url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff2) format('woff2'),
+         url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff) format('woff'),
+         url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.ttf) format('truetype');
+}
+
+/* 全域樣式 */
+body {
+    margin: 0;
+    font-family: 'cwTeXFangSong', Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+/* 標題樣式 */
+h1 {
+    font-size: 36pt;
+    font-family: 'cwTeXFangSong', serif;
+    margin-bottom: 20px;
+}
+
+/* 頁面容器樣式 */
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* 左側影片區域，占 70% */
+.video-section {
+    flex: 7;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* 右側聊天室區域，占 30% */
+.chat-section {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 視訊區域樣式 */
+video {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 聊天窗口 */
+.chat-window {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+/* 聊天輸入框 */
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.chat-input button {
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    max-width: 120px;
+}
+
+.chat-input button:hover {
+    background-color: #0056b3;
+}
+
+/* 按鈕群組樣式 */
+.button-group {
+    margin-top: 20px;
+}
+
+/* 橘色按鈕 */
+.orange-button {
+    background-color: orange;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.orange-button:hover {
+    background-color: darkorange;
+}
+
+/* 灰色按鈕 */
+.LightGray-button {
+    background-color: LightGray;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.LightGray-button:hover {
+    background-color: Gray;
+}
+
+/* 頁眉樣式 */
+header {
+    margin-bottom: 20px;
+}
+
+/* Logo 樣式 */
+.logo {
+    width: 200px;
+    height: auto;
+    background-image: url('Users/ysjhs/Downloads/鐵達尼號.png');
+    background-position: center;
+    background-size: cover;
+}
+
+/*-- 原本舊的東西 -->
+/*@font-face {
   font-family: 'cwTeXFangSong';
   font-style: normal;
   font-weight: 500;
@@ -10,7 +161,7 @@
 }
 h1 {
     font-size: 36pt;
-    font-family: 'cwTeXFangSong', serif; /* 添加後備字體 */
+    font-family: 'cwTeXFangSong', serif; 
 }
 
 .container {
@@ -29,7 +180,7 @@ header {
     background-position: center;
 }
 
-/* 按鈕樣式 */
+
 .button-group {
     margin-top: 20px;
 }
@@ -139,3 +290,4 @@ body {
 .chat-input button:hover {
     background-color: #0056b3;
 }
+*/
