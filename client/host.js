@@ -22,6 +22,8 @@ const turnOffVideoBtn = document.getElementById('turnOffVideoBtn');
 const turnOnVideoBtn = document.getElementById('turnOnVideoBtn');
 const chatWindow = document.getElementById("chatWindow");
 const chatMessage = document.getElementById("chatMessage");
+const emojiButton = document.getElementById('emojiButton');
+const emojiPicker = document.getElementById('emojiPicker');
 const sendButton = document.getElementById("sendButton");
 
 
@@ -35,6 +37,26 @@ document.addEventListener("DOMContentLoaded", () => {
     hostView.style.display = "block";
 	showUsername.innerHTML = hostnameInput.value;
   });
+});
+
+// 點擊 Emoji 按鈕時，顯示或隱藏選擇器
+emojiButton.addEventListener('click', () => {
+    emojiPicker.classList.toggle('hidden');
+});
+
+// 點擊 Emoji 時，將其插入輸入框
+emojiPicker.addEventListener('click', (event) => {
+    if (event.target.classList.contains('emoji')) {
+        chatMessage.value += event.target.textContent;
+        emojiPicker.classList.add('hidden'); // 選擇後隱藏選擇器
+    }
+});
+
+// 點擊其他地方隱藏 Emoji 選擇器
+document.addEventListener('click', (event) => {
+    if (!emojiPicker.contains(event.target) && event.target !== emojiButton) {
+        emojiPicker.classList.add('hidden');
+    }
 });
 
 function hangUpClick() {
