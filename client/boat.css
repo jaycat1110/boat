@@ -141,8 +141,8 @@ header {
 
 /* Logo 樣式 */
 .logo {
-    width: 20%;
-    height: 30%;
+    width: 200%;
+    height: 200%;
     background-image: url('Users/ysjhs/Downloads/鐵達尼號.png');
     background-position: center;
     background-size: cover;
