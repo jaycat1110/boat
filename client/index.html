@@ -8,56 +8,45 @@
     <link rel="stylesheet" type="icon.png" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
 		<style>
 			body {
-				margin: 20pt;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				margin: 0;
+				padding: 0;
+				height: 100vh;
+				font-family: Arial, sans-serif;
+				background-color: #f0f0f0;
 			}
-
-			video {
-				width: 100%;
+			
+			.logo {
+				width: 150px;
 				height: auto;
+				margin-bottom: 20px;
+			}
+			
+			h1 {
+				font-size: 2rem;
+				text-align: center;
+				margin: 20px 0;
+			}
+			
+			#roleSelection {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 10px;
 			}
 		</style>
 </head>
 <body>
     <img src="icon.png" alt="鐵達尼號 logo" class="logo">
-    <br>
-    <h1 align="center">歡迎來到鐵達尼號直播空間!</h1>
-    <br>
-    <!--<hr>-->
-    <!--<img src="/Users/ysjhs\Downloads/鐵達尼號.png" alt="鐵達尼號 Logo" class="logo">-->
-	<div id="roleSelection">
-        <h2 align="center">選擇身份</h2>
-		<a href="/host.html" class="orange-button">船長</a>
-		<a href="/audience.html" class="LightGray-button">船客</a>
-    </div>
-<!--
-    <div id="hostSection">
-        <h2>船長資料設定</h2>
-        <label for="hostnameInput">船隻名字:</label>
-        <input type="text" id="hostnameInput" placeholder="Enter your name">
-	<br>
-	<a href="/host.html" class="button">開船</a>
-        <button id="backToHomePageBtn">回到主頁</button>
-	<br>
-        <video id="localVideo" autoplay muted hidden></video>
+    <h1>歡迎來到鐵達尼號直播空間!</h1>
+    <div id="roleSelection">
+        <a href="/host.html" class="button">船長</a>
+        <a href="/audience.html" class="button LightGray-button">船客</a>
     </div>
 
-    <div id="audienceSection">
-        <h2>船客資料設定</h2>
-        <label for="audiencenameInput">船客名字:</label>
-        <input type="text" id="audiencenameInput" placeholder="Enter your name">
-     	<br>
-        <label for="hostToWatchInput">船客你要上哪艘船:</label>
-        <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
-        <br>
-        <a href="/audience.html" class="button">上船</a>	
-	<button id="backToHomePageBtn">回到主頁</button>
-        <br>
-	<video id="remoteVideo" autoplay hidden></video>
-    </div>
-	<div>
-		<h3><span id="allUsers"></span></h3>
-	</div>
--->
     <div id="otherElements" hidden>
 	<div class="container">
 		<div class="row">
