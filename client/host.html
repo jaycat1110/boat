@@ -1,47 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>船長室</title>
- <head>
-  <link rel="icon" type="logo" href="icon.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
-  <style>
-   body {
-    margin: 20pt;
-   }
-
-   video {
-    width: 100%;
-    height: auto;
-   }
-  </style>
- </head>
- <body>
-    <div id="hostSection">
-      <h2>船長資料設定</h2>
-      <label for="hostnameInput">船隻名字:</label>
-      <input type="text" id="hostnameInput" placeholder="Enter your name">
-      <br>
-      <h3><span id="allUsers"></span></h3>
-      <br>
-      <button id="startscreem">開船</button>
-      <a href="/" class="button">回到碼頭</a>
-      <br>
-    </div>
-
-<!--  <div id="hostView">
-      <h2>船長開趴囉~</h2>
-      <button class="primary" onclick="share('m')">Share Media</button>
-      <video id="localVideo" autoplay muted></video>
-      <b><span id="showLocalUserName"></span></b>
-      <button id="turnOffVideoBtn">關閉視訊</button>
-      <button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
-      <br>
-      <button onclick="hangUpClick()" class="secondary">結束趴踢</button>
-    </div>
--->
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>船長室</title>
+<head>
+	<link rel="icon" type="logo" href="icon.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Arial, sans-serif;
+			background-color: #f9f9f9;
+		}
+		
+		#container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #ffffff;
+			border: 1px solid #ddd;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+		
+		#leftSection {
+			flex: 1;
+			text-align: center;
+			white-space: nowrap; /* 避免換行 */
+			font-size: 1.5rem;
+		}
+		
+		#divider {
+			width: 1px;
+			background-color: black;
+			height: 100px;
+			margin: 0 20px;
+		}
+		
+		#rightSection {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="hostSection">
+		<div id="container">
+	        <!-- 左側部分 -->
+		        <div id="leftSection">
+				<h2>船長資料設定</h2>
+		        </div>
+		
+		        <!-- 中間分界線 -->
+		        <div id="divider"></div>
+		
+		        <!-- 右側部分 -->
+		        <div id="rightSection">
+				<label for="hostnameInput">船隻名字:</label>
+				<input type="text" id="hostnameInput" placeholder="Enter your name">
+				<h3><span id="allUsers"></span></h3>
+				<button id="startscreem" class="orange-button">開船</button>
+				<a href="/" class="button" class="button LightGray-button">回到碼頭</a>
+		        </div>
+		</div>
+	</div>
 	
 <div id="hostView">
 	<div class="container">
