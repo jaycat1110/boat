@@ -206,14 +206,15 @@ video {
     will-change: transform;
 }
 
-.btn,
-.btn:focus {
+/* 按鈕動畫-趴兔 */
+.btn2,
+.btn2:focus {
     display: block;
     position: relative;
     z-index: 1;
     min-width: 200px;
     color: #FFFFFF; /* 初始白字 */
-    background: #333333; /* 初始深灰底 */
+    background: #DCDCDC; /* 初始深灰底 */
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
@@ -225,7 +226,6 @@ video {
     border: 1px solid transparent; /* 預設無框 */
 }
 
-/* 按鈕動畫-趴兔 */
 .btn2:before,
 .btn2:after {
     content: '';
