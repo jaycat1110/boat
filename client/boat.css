@@ -159,7 +159,7 @@ video {
     background-color: darkred;
 }
 
-/* 按鈕動畫 */
+/* 按鈕動畫-趴萬 */
 .btn,
 .btn:focus {
     position: relative;
@@ -206,6 +206,71 @@ video {
     will-change: transform;
 }
 
+.btn,
+.btn:focus {
+    display: block;
+    position: relative;
+    z-index: 1;
+    min-width: 200px;
+    color: #FFFFFF; /* 初始白字 */
+    background: #333333; /* 初始深灰底 */
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1);
+    padding: 10px 20px;
+    margin: 10px 0px;
+    border: 1px solid transparent; /* 預設無框 */
+}
+
+/* 按鈕動畫-趴兔 */
+.btn2:before,
+.btn2:after {
+    content: '';
+    position: absolute;
+    transition: inherit;
+    z-index: -1;
+}
+.btn2:hover {
+    color: #333333; /* 懸停時變黑字 */
+    background: #FFFFFF; /* 懸停時變白底 */
+    border: 1px solid #333333; /* 懸停時加深灰框 */
+    transition-delay: 0.5s;
+}
+.btn2:hover:before {
+    transition-delay: 0s;
+}
+.btn2:hover:after {
+    background: #FFFFFF;
+    transition-delay: 0.35s;
+}
+.btn2.from-center:before {
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: 0;
+    border: 1px solid #FFFFFF; /* 初始白框動畫 */
+    border-left: 0;
+    border-right: 0;
+}
+.btn2.from-center:after {
+    bottom: 0;
+    left: 0;
+    height: 0;
+    width: 100%;
+    background: #FFFFFF; /* 初始白底 */
+}
+.btn2.from-center:hover:before {
+    left: 0;
+    width: 100%; /* 滑鼠懸停展開寬度 */
+}
+.btn2.from-center:hover:after {
+    top: 0;
+    height: 100%; /* 滑鼠懸停展開高度 */
+}
+
 
 /* 頁眉樣式 */
 header {
@@ -220,147 +285,3 @@ header {
     background-position: center;
     background-size: cover;
 }
-
-/*-- 原本舊的東西 -->
-/*@font-face {
-  font-family: 'cwTeXFangSong';
-  font-style: normal;
-  font-weight: 500;
-  src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot);
-  src: url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.eot?#iefix) format('embedded-opentype'),
-       url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff2) format('woff2'),
-       url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.woff) format('woff'),
-       url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.ttf) format('truetype');
-}
-h1 {
-    font-size: 36pt;
-    font-family: 'cwTeXFangSong', serif; 
-}
-
-.container {
-    width: 100%;
-    max-width: 600px;
-}
-
-header {
-    margin-bottom: 20px;
-}
-
-.logo {
-    width: 200px;
-    height: auto;
-    background-image:url('Users/ysjhs/Downloads/鐵達尼號.png');
-    background-position: center;
-}
-
-
-.button-group {
-    margin-top: 20px;
-}
-
-.orange-button {
-    background-color: orange;
-    color: black;
-    border: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.orange-button:hover {
-    background-color: darkorange;
-}
-.button-group {
-    margin-top: 20px;
-}
-
-.LightGray-button {
-    background-color: LightGray;
-    color: black;
-    border: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    margin: 10px; 	
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.LightGray-button:hover {
-    background-color: Gray;
-}
-
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    height: 100vh;
-    background-color: #f0f0f0;
-}
-
-.container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-}
-
-.video-section {
-    flex: 2;
-    background-color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#localVideo {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.chat-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border-left: 1px solid #ccc;
-}
-
-.chat-window {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px;
-    background-color: #e9e9e9;
-}
-
-.chat-input {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #ccc;
-    background-color: #f9f9f9;
-}
-
-.chat-input input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 10px;
-}
-
-.chat-input button {
-    padding: 10px 15px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.chat-input button:hover {
-    background-color: #0056b3;
-}
-*/
