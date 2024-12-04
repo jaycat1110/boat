@@ -67,7 +67,7 @@
 				<input type="text" id="hostnameInput" placeholder="Enter your name">
 				<h3><span id="allUsers"></span></h3>
 				<button id="startscreem" class="orange-button">開船</button>
-				<a href="/" class="button" class="LightGray-button">回到碼頭</a>
+				<a href="/" align="center" class="LightGray-button">回到碼頭</a>
 		        </div>
 		</div>
 	</div>
@@ -76,13 +76,13 @@
 	<div class="container">
 	<!-- 左側影片視訊區域 -->
 		<h2>船長開趴囉~</h2>
-    		<button class="primary" onclick="share('m')">Share Media</button>
+    		<button class="orange-button" align="center" onclick="share('m')">開啟鏡頭</button>
     		<video id="localVideo" autoplay muted></video>
     		<b><span id="showLocalUserName"></span></b>
-    		<button id="turnOffVideoBtn">關閉視訊</button>
+    		<button id="turnOffVideoBtn" class="LightGray-button" align="center">關閉視訊</button>
     		<button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
     		<br>
-    		<button onclick="hangUpClick()" class="secondary">回到船艙</button>
+    		<button onclick="hangUpClick()" class="red-button" align="center">回到船艙</button>
   	
 	<!-- 右側聊天室區域 -->
 	<div class="chat-section">
@@ -92,7 +92,7 @@
     		<div class="chat-input">
 			<button id="emojiButton" class="emoji-button">😊</button>
 			<input type="text" id="chatMessage" placeholder="輸入訊息...">
-			<button id="sendButton">送出</button>
+			<button id="sendButton" href="javascript: void(0)" class="btn">➢</button>
     		</div>
 		<!-- Emoji 選擇器 -->
 		<div id="emojiPicker" class="emoji-picker hidden">
