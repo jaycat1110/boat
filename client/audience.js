@@ -8,6 +8,7 @@ const peerConnectionConfig = {
 
 const startwatch = document.getElementById("startwatch");
 const audienceSection = document.getElementById("audienceSection");
+const audienceChoosing = document.getElementById("audienceChoosing");
 const remoteVideo = document.getElementById('remoteVideo');
 const audienceView = document.getElementById("audienceView");
 const hostToWatchInput = document.getElementById('hostToWatchInput');
@@ -22,11 +23,9 @@ const sendButton = document.getElementById("sendButton");
 //要包在確認名稱正確的function內
 document.addEventListener("DOMContentLoaded", () => {
 
-    audienceView.style.display = "none";
+	audienceChoosing.style.display = "none";
+	audienceView.style.display = "none";
     // 當進入此畫面時隱藏直播畫面
-	send({
-		
-	})
 });
 
 function callBtnClick() {
@@ -125,6 +124,8 @@ function send(msg) {
 
 function Login() {
 	localUser = audiencenameInput.value;
+	audienceSection.style.display = "none";
+	audienceChoosing.style.display = "block";
 	if (localUser.length > 0) {
 		send({
 			type: 'login',
