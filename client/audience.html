@@ -26,45 +26,46 @@
       <label for="hostToWatchInput">船客你要上哪艘船:</label>
       <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
       <br>
-      <h3><span id="allUsers"></span></h3>
+      <h3>Available hosts:<span id="allhosts"></span></h3>
       <br>
-      <button class="primary" onclick="callBtnClick()" >上船</button>
+      <button class="primary" onclick="Login()" >上船</button>
       <a href="/" class="button">回到碼頭</a>	
       <br>
-   </div>
+    </div>
 
-   <!-- <div class="container">
- 左側影片視訊區域 
-<div id="hostView">
-    <h2>船長開趴囉~</h2>
-    <button class="primary" onclick="share('m')">Share Media</button>
-    <video id="localVideo" autoplay muted></video>
-    <b><span id="showLocalUserName"></span></b>
-    <button id="turnOffVideoBtn">關閉視訊</button>
-    <button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
+<div id="audienceView">
+	<div class="container">
+	<!-- 左側影片視訊區域 -->
+    <h2>船艙開趴囉~</h2>
+    <video id="remoteVideo" autoplay></video>
+    <b><span id="showRemoteUserName"></span></b>
     <br>
-    <button onclick="hangUpClick()" class="secondary">End Broadcast</button>
-  </div>-->
-
-<!-- 右側聊天室區域 
-<div class="chat-section">
+    <a href="/"><button  onclick="hangUpClick()" class="secondary" >離開趴踢</button></a>
+  	
+	<!-- 右側聊天室區域 -->
+	<div class="chat-section">
     <div id="chatWindow" class="chat-window">
-	 聊天內容將會插入這裡 
+			<!-- 聊天內容將會插入這裡 -->
     </div>
     <div class="chat-input">
-	<input type="text" id="chatMessage" placeholder="輸入訊息...">
-	<button id="sendButton">送出</button>
+      <button id="emojiButton" class="emoji-button">😊</button>
+      <input type="text" id="chatMessage" placeholder="輸入訊息...">
+      <button id="sendButton">送出</button>
     </div>
-</div>-->
-    
+		<!-- Emoji 選擇器 -->
+		<div id="emojiPicker" class="emoji-picker hidden">
+			<span class="emoji">😊</span>
+			<span class="emoji">😂</span>
+			<span class="emoji">😍</span>
+			<span class="emoji">👍</span>
+			<span class="emoji">🎉</span>
+			<span class="emoji">❤️</span>
+			<span class="emoji">😢</span>
+			<span class="emoji">😡</span>
+		</div>
+	</div>
+</div>
 
-   <div id="audienceView" hidden>
-      <h2>船艙開趴囉~</h2>
-      <video id="remoteVideo" autoplay></video>
-      <b><span id="showRemoteUserName"></span></b>
-      <br>
-      <button onclick="handelHangUp()" class="secondary">離開趴踢</button>
-   </div>
    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
    <script src="audience.js"></script>
    <link rel="stylesheet" href="boat.css">
