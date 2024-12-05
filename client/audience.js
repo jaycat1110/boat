@@ -12,6 +12,7 @@ const remoteVideo = document.getElementById('remoteVideo');
 const audienceView = document.getElementById("audienceView");
 const hostToWatchInput = document.getElementById('hostToWatchInput');
 const showRemoteUsername = document.getElementById('showRemoteUserName');
+const allhosts = document.getElementById('allhosts');
 
 
 const chatWindow = document.getElementById("chatWindow");
@@ -23,6 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     audienceView.style.display = "none";
     // 當進入此畫面時隱藏直播畫面
+	send({
+		
+	})
 });
 
 function callBtnClick() {
@@ -64,7 +68,7 @@ function gotMessageFromServer(message) {
 
 	switch (data.type) {
 		case 'login':
-			handleLogin(data.success, data.allUsers, data.share);
+			handleLogin(data.success, data.allUsers, /* data.share */);
 			break;
 		//when somebody wants to call us
 		case 'offer':
@@ -84,6 +88,7 @@ function gotMessageFromServer(message) {
 			refreshUserList(data.users);
 			break;
 		default:
+			console.log(message);
 			break;
 	}
 
@@ -105,7 +110,6 @@ function setupConnection(stream) {
 		console.log('got remote stream');
 		showRemoteUsername.innerHTML = connectedUser;
 		remoteVideo.srcObject = event.streams[0];
-		remoteVideo.hidden = false;
 	};
 	yourConn.addStream(stream);
 }
@@ -119,13 +123,35 @@ function send(msg) {
 	serverConnection.send(JSON.stringify(msg));
 }
 
-function handleLogin(success, allUsers, share) {
+function Login() {
+	localUser = audiencenameInput.value;
+	if (localUser.length > 0) {
+		send({
+			type: 'login',
+			name: localUser,
+		});
+	} 
+	else {
+        alert('Username cannot be blank!');
+	}
+}
+
+function handleLogin(success, allhosts, /* share */) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
 	}
+	else{
+		
+		audienceSection.style.display = "none";
+		audienceView.style.display = "block";
+		showUsername.innerHTML = audiencenameInput.value;
+		
+	}
 
-	refreshUserList(allUsers);
+	refreshUserList(allhosts);
+
+	
 }
 
 function handleOffer(offer, name) {
@@ -205,5 +231,5 @@ function handelHangUp() {
 function refreshUserList(users) {
 	const allAvailableUsers = users.join(', ');
 	console.log('All available users', allAvailableUsers);
-	showAllUsers.innerHTML = 'Available users: ' + allAvailableUsers;
+	allhosts.innerHTML = allAvailableUsers;
 }

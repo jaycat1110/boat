@@ -31,12 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hostView.style.display = "none";
     // 當 開船 按鈕被按下時
-    startscreem.addEventListener("click", () => {
+    /* startscreem.addEventListener("click", () => {
     // 隱藏角色選擇區，顯示 直播 區域
     hostSection.style.display = "none";
     hostView.style.display = "block";
 	showUsername.innerHTML = hostnameInput.value;
-  });
+  }); */
 });
 
 // 點擊 Emoji 按鈕時，顯示或隱藏選擇器
@@ -74,7 +74,7 @@ function gotMessageFromServer(message) {
 
     switch (data.type) {
 		case 'login':
-			handleLogin(data.success, data.allUsers, data.share);
+			handleLogin(data.success, /*data.allUsers, data.share*/);
 			break;
 		case 'candidate':
 			handleCandidate(data.candidate);
@@ -85,10 +85,8 @@ function gotMessageFromServer(message) {
         case 'hangup':
 			handelHangUp();
 			break;
-        case 'users':
-            refreshUserList(data.users);
-            break;
         default:
+			console.log(message);
 			break;
 	}
     serverConnection.onerror = errorHandler;
@@ -118,12 +116,12 @@ function setupConnection(stream) {
 			});
 		}
 	};
-	yourConn.ontrack = (event) => {
+	/* yourConn.ontrack = (event) => {
 		console.log('got remote stream');
 		showRemoteUsername.innerHTML = connectedUser;
 		remoteVideo.srcObject = event.streams[0];
 		remoteVideo.hidden = false;
-	};
+	}; */
 	stream.getTracks().forEach((track) => {
         yourConn.addTrack(track, stream);
     });
@@ -142,42 +140,51 @@ function send(msg) {
  * @param {'m'|'s'} mediaType
  */
 function share(mediaType) {
+	if (mediaType === 'm') {
+		navigator.mediaDevices.getUserMedia({
+			video: true,
+			audio: true,
+		}).then(getUserMediaSuccess)
+		.catch((error) => {
+			console.error('Error accessing media devices:', error);
+			alert('Unable to access camera or microphone. Please check your browser permissions.');
+		});
+		send({
+			type: 'share',
+			name: localUser,
+		});
+	} 
+	else {
+		console.error('Invalid mediaType');
+	}
+}
+
+function Login() {
 	localUser = hostnameInput.value;
 	if (localUser.length > 0) {
-		send({//按下share才確認名稱(需調整)
+		send({
 			type: 'login',
 			name: localUser,
-			share: mediaType,
 		});
-		if (mediaType === 'm') {
-            navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true,
-            }).then(getUserMediaSuccess)
-            .catch((error) => {
-				console.error('Error accessing media devices:', error);
-				alert('Unable to access camera or microphone. Please check your browser permissions.');
-			});
-        } 
-		else {
-            console.error('Invalid mediaType');
-        }
-    } 
+	} 
 	else {
         alert('Username cannot be blank!');
 	}
-	
 }
 
-function handleLogin(success, allUsers, share) {
+function handleLogin(success, /* allUsers , share */) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
 	}
+	else{
+		
+		hostSection.style.display = "none";
+		hostView.style.display = "block";
+		showUsername.innerHTML = hostnameInput.value;
+		
+	}
 
-	refreshUserList(allUsers);
-
-	
 }
 
 
@@ -257,6 +264,14 @@ function turnOnVideo() {
         });
 }
 
+function handleCandidate(candidate) {
+	if (yourConn.remoteDescription) {
+		yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
+	} else {
+		candidateQueue.push(candidate);
+	}
+}
+
 function handleLeave() {
 	handelHangUp();
 }
@@ -264,9 +279,11 @@ function handleLeave() {
 function handelHangUp() {
 	connectedUser = null;
 	//showRemoteUsername.innerHTML = '';
-
-	hostSection.style.display = "block";
-    hostView.style.display = "none";
+	localUser = 
+	send({
+		type: 'hangup',
+		name: localUser,
+	});
 
 
 	yourConn.close();
@@ -279,11 +296,6 @@ function handelHangUp() {
 /**
  * @param {string[]} users
  */
-function refreshUserList(users) {
-	const allAvailableUsers = users.join(', ');
-	console.log('All available users', allAvailableUsers);
-	showAllUsers.innerHTML = 'Available users: ' + allAvailableUsers;
-}
 
 // 送出訊息按鈕事件
 sendButton.addEventListener("click", () => {
