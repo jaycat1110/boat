@@ -24,6 +24,10 @@ const wss = new WebSocketServer({ server: server });
  */
 const users = new Map();
 const allUsers = new Set();
+/**
+ * @type {Set<string>}
+ */
+const allhosts = new Set();
 
 wss.on('connection', (ws) => {
 	ws.on('message', (message) => {
@@ -42,6 +46,9 @@ wss.on('connection', (ws) => {
 		//switching type of the user message
 		switch (data.type) {
 			//when a user tries to login
+			case 'new':{
+				
+			}
 			case 'login': {
 				console.log('User logged', data.name);
 				if (users[data.name]) {
@@ -59,14 +66,21 @@ wss.on('connection', (ws) => {
 					sendTo(ws, {
 						type: 'login',
 						success: true,
-						share: data.share,
-						allUsers: Array.from(allUsers),
+						//share: data.share,
+						//allUsers: Array.from(allUsers),
 					});
 
 					notifyUsersChange(data.name);
 				}
 				break;
 			}
+
+			case 'share': {
+				console.log('available host lists');
+				allhosts.add(data.name);
+				notifyUsersChange(data.name);
+			}
+
 			case 'offer': {
 				// Calling different user
 				console.log('Sending offer to: ', data.name);
@@ -151,6 +165,7 @@ wss.on('connection', (ws) => {
 		if (ws.name) {
 			delete users[ws.name];
 			allUsers.delete(ws.name);
+			allhosts.delete(ws.name);
 
 			if (ws.otherName) {
 				console.log('Disconnecting from ', ws.otherName);
@@ -179,11 +194,11 @@ function sendTo(connection, message) {
 }
 
 function notifyUsersChange(newUser) {
-	for (const user of allUsers) {
+	for (const user of allhosts) {
 		if (user !== newUser) {
 			sendTo(users[user], {
 				type: 'users',
-				users: Array.from(allUsers),
+				users: Array.from(allhosts),
 			});
 		}
 	}
