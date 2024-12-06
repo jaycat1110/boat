@@ -95,6 +95,21 @@ video {
     border-radius: 4px;
 }
 
+/* 影片區的按鈕位置配置 */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.controls span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+
 /* 蝦趴的輸入框 */
 /* 整體容器樣式 */
 .md-input-container {
