@@ -8,12 +8,45 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
 	<style>
 		body {
-			margin: 20pt;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: ‘Noto Sans TC’, sans-serif;
+			background-color: #f9f9f9;
 		}
-
-		video {
-			width: 100%;
-			height: auto;
+		
+		#container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #ffffff;
+			border: 1px solid #ddd;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+		
+		#leftSection {
+			flex: 1;
+			text-align: center;
+			white-space: nowrap; /* 避免換行 */
+			font-size: 1.5rem;
+		}
+		
+		#divider {
+			width: 1px;
+			background-color: black;
+			height: 100px;
+			margin: 0 20px;
+		}
+		
+		#rightSection {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
 		}
 	</style>
  </head>
@@ -31,11 +64,13 @@
 		        <!-- 右側部分 -->
 		        <div id="rightSection">
 				<div class="md-input-container">
-					<input type="text" id="audiencenameInput" class="md-input" placeholder=" " required>
-					<label for="materialInput" class="md-label">船客名字</label>
-					<input type="text" id="hostToWatchInput" class="md-input" placeholder=" " required>
-					<label for="materialInput" class="md-label">船客你要上哪艘船</label>
-				</div>
+        				<input type="text" id="audiencenameInput" class="md-input" placeholder=" " required>
+        				<label for="audiencenameInput" class="md-label">船客名字</label>
+    				</div>
+				<div class="md-input-container">
+        				<input type="text" id="hostToWatchInput" class="md-input" placeholder=" " required>
+        				<label for="hostToWatchInput" class="md-label">船客你要上哪艘船</label>
+    				</div>
 				<h3>Available hosts:<span id="allhosts"></span></h3>
 				<button id="primary" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">上船</button>
 				<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
@@ -66,7 +101,7 @@
 			<video id="remoteVideo" autoplay></video>
 			<b><span id="showRemoteUserName"></span></b>
 			<br>
-			<a href="/"><button  onclick="hangUpClick()" class="secondary" >離開趴踢</button></a>
+			<a href="/"><button  onclick="hangUpClick()" class="red-button" align="center" >離開趴踢</button></a>
 			
 		<!-- 右側聊天室區域 -->
 		<div class="chat-section">
@@ -74,9 +109,9 @@
 				<!-- 聊天內容將會插入這裡 -->
 			</div>
 			<div class="chat-input">
-				<button id="emojiButton" class="emoji-button">😊</button>
+				<button id="emojiButton" href="javascript: void(0)" class="btn">😊</button>
 				<input type="text" id="chatMessage" placeholder="輸入訊息...">
-				<button id="sendButton">送出</button>
+				<button id="sendButton" href="javascript: void(0)" class="btn">➢</button>
 			</div>
 			<!-- Emoji 選擇器 -->
 			<div id="emojiPicker" class="emoji-picker hidden">
