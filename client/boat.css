@@ -10,6 +10,8 @@
          url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.ttf) format('truetype');
 }
 
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
 /* 全域樣式 */
 body {
     margin: 0;
@@ -19,16 +21,20 @@ body {
     background-color: #f0f0f0;
 }
 
+body {
+    font-family: ‘Noto Sans TC’, sans-serif;
+}
+
 /* 標題樣式 */
 h1 {
     font-size: 40pt;
-    font-family: 'cwTeXFangSong', serif;
+    font-family: 'Noto Sans TC', serif;
     margin-bottom: 20px;
 }
 
 h2 {
     font-size: 32pt;
-    font-family: 'cwTeXFangSong', serif;
+    font-family: 'Noto Sans TC', serif;
     margin-bottom: 20px;
 }
 
