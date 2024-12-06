@@ -53,64 +53,64 @@
 <body>
 	<div id="hostSection">
 		<div id="container">
-	        <!-- 左側部分 -->
-		        <div id="leftSection">
+		<!-- 左側部分 -->
+			<div id="leftSection">
 				<h2>船長資料設定</h2>
-		        </div>
+			</div>
 		
-		        <!-- 中間分界線 -->
-		        <div id="divider"></div>
+		<!-- 中間分界線 -->
+		<div id="divider"></div>
 		
-		        <!-- 右側部分 -->
-		        <div id="rightSection">
-				<div class="md-input-container">
-					<input type="text" id="hostnameInput" class="md-input" placeholder=" " required>
-					<label for="materialInput" class="md-label">船隻名字</label>
-				</div>
-				<h3><span id="allUsers"></span></h3>
-				<button id="startscreem" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">準備開船</button>
-				<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
-		        </div>
+		<!-- 右側部分 -->
+		<div id="rightSection">
+			<div class="md-input-container">
+				<input type="text" id="hostnameInput" class="md-input" placeholder=" " required>
+				<label for="materialInput" class="md-label">船隻名字</label>
+			</div>
+			<h3><span id="allUsers"></span></h3>
+			<button id="startscreem" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">準備開船</button>
+			<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
+			</div>
 		</div>
 	</div>
 	
-<div id="hostView">
-	<div class="container">
-	<!-- 左側影片視訊區域 -->
-		<h2>船長開趴囉~</h2>
-    		<button class="orange-button" align="center" onclick="share('m')">開啟鏡頭</button>
-    		<video id="localVideo" autoplay muted></video>
-    		<b><span id="showLocalUserName"></span></b>
-    		<button id="turnOffVideoBtn" class="LightGray-button" align="center">關閉視訊</button>
-    		<button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
-    		<br>
-    		<a href="/"><button onclick="hangUpClick()" class="red-button" align="center">回到船艙</button></a>
-  	
-	<!-- 右側聊天室區域 -->
-	<div class="chat-section">
-    		<div id="chatWindow" class="chat-window">
+	<div id="hostView">
+		<div class="container">
+		<!-- 左側影片視訊區域 -->
+			<h2>船長開趴囉~</h2>
+			<button class="orange-button" align="center" onclick="share('m')">開啟鏡頭</button>
+			<video id="localVideo" autoplay muted></video>
+			<b><span id="showLocalUserName"></span></b>
+			<button id="turnOffVideoBtn" class="LightGray-button" align="center">關閉視訊</button>
+			<button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
+			<br>
+			<a href="/"><button onclick="hangUpClick()" class="red-button" align="center">回到船艙</button></a>
+		
+		<!-- 右側聊天室區域 -->
+		<div class="chat-section">
+			<div id="chatWindow" class="chat-window">
 			<!-- 聊天內容將會插入這裡 -->
-    		</div>
-    		<div class="chat-input">
-			<button id="emojiButton" href="javascript: void(0)" class="btn">😊</button>
-			<input type="text" id="chatMessage" placeholder="輸入訊息...">
-			<button id="sendButton" href="javascript: void(0)" class="btn">➢</button>
-    		</div>
-		<!-- Emoji 選擇器 -->
-		<div id="emojiPicker" class="emoji-picker hidden">
-			<span class="emoji">😊</span>
-			<span class="emoji">😂</span>
-			<span class="emoji">😍</span>
-			<span class="emoji">👍</span>
-			<span class="emoji">🎉</span>
-			<span class="emoji">❤️</span>
-			<span class="emoji">😢</span>
-			<span class="emoji">😡</span>
+			</div>
+			<div class="chat-input">
+				<button id="emojiButton" href="javascript: void(0)" class="btn">😊</button>
+				<input type="text" id="chatMessage" placeholder="輸入訊息...">
+				<button id="sendButton" href="javascript: void(0)" class="btn">➢</button>
+			</div>
+			<!-- Emoji 選擇器 -->
+			<div id="emojiPicker" class="emoji-picker hidden">
+				<span class="emoji">😊</span>
+				<span class="emoji">😂</span>
+				<span class="emoji">😍</span>
+				<span class="emoji">👍</span>
+				<span class="emoji">🎉</span>
+				<span class="emoji">❤️</span>
+				<span class="emoji">😢</span>
+				<span class="emoji">😡</span>
+			</div>
 		</div>
 	</div>
-</div>
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-    <script src="host.js"></script>
-    <link rel="stylesheet" href="boat.css">
+	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+	<script src="host.js"></script>
+	<link rel="stylesheet" href="boat.css">
 </body>
 </html>
