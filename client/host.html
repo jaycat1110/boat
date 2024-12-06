@@ -77,14 +77,23 @@
 	<div id="hostView">
 		<div class="container">
 		<!-- 左側影片視訊區域 -->
-			<h2>船長開趴囉~</h2>
-			<button class="orange-button" align="center" onclick="share('m')">開啟鏡頭</button>
+			<!--<h2>船長開趴囉~</h2>-->
+			<video id="localVideo" autoplay muted></video>
+			<div class="controls">
+				<b><span id="showLocalUserName">船長名字</span></b>
+				<button class="orange-button" onclick="share('m')">開啟鏡頭</button>
+				<button id="turnOffVideoBtn" class="LightGray-button">關閉視訊</button>
+				<button id="turnOnVideoBtn" style="display: none;" class="LightGray-button">開啟視訊</button>
+				<a href="/"><button onclick="hangUpClick()" class="red-button">回到船艙</button></a>
+			</div>
+			
+			<!--<button class="orange-button" align="center" onclick="share('m')">開啟鏡頭</button>
 			<video id="localVideo" autoplay muted></video>
 			<b><span id="showLocalUserName"></span></b>
 			<button id="turnOffVideoBtn" class="LightGray-button" align="center">關閉視訊</button>
 			<button id="turnOnVideoBtn" style="display: none;">開啟視訊</button>
 			<br>
-			<a href="/"><button onclick="hangUpClick()" class="red-button" align="center">回到船艙</button></a>
+			<a href="/"><button onclick="hangUpClick()" class="red-button" align="center">回到船艙</button></a>-->
 		
 		<!-- 右側聊天室區域 -->
 		<div class="chat-section">
