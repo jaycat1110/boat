@@ -67,12 +67,12 @@
         				<input type="text" id="audiencenameInput" class="md-input" placeholder=" " required>
         				<label for="audiencenameInput" class="md-label">船客名字</label>
     				</div>
-				<div class="md-input-container">
+				<!-- <div class="md-input-container">
         				<input type="text" id="hostToWatchInput" class="md-input" placeholder=" " required>
         				<label for="hostToWatchInput" class="md-label">船客你要上哪艘船</label>
-    				</div>
-				<h3>Available hosts:<span id="allhosts"></span></h3>
-				<button id="primary" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">上船</button>
+    				</div> -->
+				<!-- <h3>Available hosts:<span id="allhosts"></span></h3> -->
+				<button id="primary" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">選船</button>
 				<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
 		        </div>
 		</div>
@@ -86,18 +86,18 @@
 	<br>
       <button class="primary" onclick="Login()" >選船</button>
       <a href="/" class="button">回到碼頭</a>
-    </div>
+    </div>-->
     <div id="audienceChoosing">
       <h2><span id=" audiencenameInput"></span></h2>
-	<label for="hostToWatchInput">船客你要上哪艘船:</label>
-	<input type="text" id="hostToWatchInput" placeholder="Enter host's name">
-	<br>
-	<h3>Available hosts:<span id="allhosts"></span></h3>
-	<br>
-	<button class="primary" onclick="Login()" >上船</button>
-	<a href="/" class="button">回到碼頭</a>	
-	<br>
-	</div>-->
+	    <label for="hostToWatchInput">船客你要上哪艘船:</label>
+	    <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
+	    <br>
+	    <h3>Available hosts:<span id="allhosts"></span></h3>
+	    <br>
+	    <button class="primary" onclick="callBtnClick()" >上船</button>
+	    <a href="/" class="button">回到碼頭</a>	
+	    <br>
+	  </div>
 
 	<div id="audienceView">
 		<div class="container">
