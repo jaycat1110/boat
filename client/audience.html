@@ -1,78 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>渡船口</title>
- <head>
-  <link rel="icon" type="logo" href="icon.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
-  <style>
-   body {
-    margin: 20pt;
-   }
-
-   video {
-    width: 100%;
-    height: auto;
-   }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>渡船口</title>
+<head>
+	<link rel="icon" type="logo" href="icon.png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css" />
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			font-family: ‘Noto Sans TC’, sans-serif;
+			background-color: #f9f9f9;
+		}
+		
+		#container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #ffffff;
+			border: 1px solid #ddd;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+		
+		#leftSection {
+			flex: 1;
+			text-align: center;
+			white-space: nowrap; /* 避免換行 */
+			font-size: 1.5rem;
+		}
+		
+		#divider {
+			width: 1px;
+			background-color: black;
+			height: 100px;
+			margin: 0 20px;
+		}
+		
+		#rightSection {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+	</style>
  </head>
  <body>
-    <div id="audienceSection">
-      <h2>船客資料設定</h2>
-      <label for="audiencenameInput">船客名字:</label>
-      <input type="text" id="audiencenameInput" placeholder="Enter your name">
-      <br>
+	<div id="audienceSection">
+		<div id="container">
+	        <!-- 左側部分 -->
+		        <div id="leftSection">
+				<h2>船客資料設定</h2>
+		        </div>
+		
+		        <!-- 中間分界線 -->
+		        <div id="divider"></div>
+		
+		        <!-- 右側部分 -->
+		        <div id="rightSection">
+				<div class="md-input-container">
+        				<input type="text" id="audiencenameInput" class="md-input" placeholder=" " required>
+        				<label for="audiencenameInput" class="md-label">船客名字</label>
+    				</div>
+				<div class="md-input-container">
+        				<input type="text" id="hostToWatchInput" class="md-input" placeholder=" " required>
+        				<label for="hostToWatchInput" class="md-label">船客你要上哪艘船</label>
+    				</div>
+				<h3>Available hosts:<span id="allhosts"></span></h3>
+				<button id="primary" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">上船</button>
+				<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
+		        </div>
+		</div>
+	</div>
+
+	 
+	<!--<div id="audienceSection">
+	<h2>船客資料設定</h2>
+	<label for="audiencenameInput">船客名字:</label>
+	<input type="text" id="audiencenameInput" placeholder="Enter your name">
+	<br>
       <button class="primary" onclick="Login()" >選船</button>
       <a href="/" class="button">回到碼頭</a>
     </div>
     <div id="audienceChoosing">
       <h2><span id=" audiencenameInput"></span></h2>
-      <label for="hostToWatchInput">船客你要上哪艘船:</label>
-      <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
-      <br>
-      <h3>Available hosts:<span id="allhosts"></span></h3>
-      <br>
-      <button class="primary" onclick="Login()" >上船</button>
-      <a href="/" class="button">回到碼頭</a>	
-      <br>
-    </div>
+	<label for="hostToWatchInput">船客你要上哪艘船:</label>
+	<input type="text" id="hostToWatchInput" placeholder="Enter host's name">
+	<br>
+	<h3>Available hosts:<span id="allhosts"></span></h3>
+	<br>
+	<button class="primary" onclick="Login()" >上船</button>
+	<a href="/" class="button">回到碼頭</a>	
+	<br>
+	</div>-->
 
-<div id="audienceView">
-	<div class="container">
-	<!-- 左側影片視訊區域 -->
-    <h2>船艙開趴囉~</h2>
-    <video id="remoteVideo" autoplay></video>
-    <b><span id="showRemoteUserName"></span></b>
-    <br>
-    <a href="/"><button  onclick="hangUpClick()" class="secondary" >離開趴踢</button></a>
-  	
-	<!-- 右側聊天室區域 -->
-	<div class="chat-section">
-    <div id="chatWindow" class="chat-window">
-			<!-- 聊天內容將會插入這裡 -->
-    </div>
-    <div class="chat-input">
-      <button id="emojiButton" class="emoji-button">😊</button>
-      <input type="text" id="chatMessage" placeholder="輸入訊息...">
-      <button id="sendButton">送出</button>
-    </div>
-		<!-- Emoji 選擇器 -->
-		<div id="emojiPicker" class="emoji-picker hidden">
-			<span class="emoji">😊</span>
-			<span class="emoji">😂</span>
-			<span class="emoji">😍</span>
-			<span class="emoji">👍</span>
-			<span class="emoji">🎉</span>
-			<span class="emoji">❤️</span>
-			<span class="emoji">😢</span>
-			<span class="emoji">😡</span>
+	<div id="audienceView">
+		<div class="container">
+		<!-- 左側影片視訊區域 -->
+			<h2>船艙開趴囉~</h2>
+			<video id="remoteVideo" autoplay></video>
+			<b><span id="showRemoteUserName"></span></b>
+			<br>
+			<a href="/"><button  onclick="hangUpClick()" class="red-button" align="center" >離開趴踢</button></a>
+			
+		<!-- 右側聊天室區域 -->
+		<div class="chat-section">
+			<div id="chatWindow" class="chat-window">
+				<!-- 聊天內容將會插入這裡 -->
+			</div>
+			<div class="chat-input">
+				<button id="emojiButton" href="javascript: void(0)" class="btn">😊</button>
+				<input type="text" id="chatMessage" placeholder="輸入訊息...">
+				<button id="sendButton" href="javascript: void(0)" class="btn">➢</button>
+			</div>
+			<!-- Emoji 選擇器 -->
+			<div id="emojiPicker" class="emoji-picker hidden">
+				<span class="emoji">😊</span>
+				<span class="emoji">😂</span>
+				<span class="emoji">😍</span>
+				<span class="emoji">👍</span>
+				<span class="emoji">🎉</span>
+				<span class="emoji">❤️</span>
+				<span class="emoji">😢</span>
+				<span class="emoji">😡</span>
+			</div>
 		</div>
 	</div>
-</div>
 
-   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-   <script src="audience.js"></script>
-   <link rel="stylesheet" href="boat.css">
- </body>
+	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+	<script src="audience.js"></script>
+	<link rel="stylesheet" href="boat.css">
+</body>
 </html>

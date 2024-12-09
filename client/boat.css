@@ -10,6 +10,8 @@
          url(//fonts.gstatic.com/ea/cwtexfangsong/v3/cwTeXFangSong-zhonly.ttf) format('truetype');
 }
 
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
 /* 全域樣式 */
 body {
     margin: 0;
@@ -19,16 +21,20 @@ body {
     background-color: #f0f0f0;
 }
 
+body {
+    font-family: ‘Noto Sans TC’, sans-serif;
+}
+
 /* 標題樣式 */
 h1 {
     font-size: 40pt;
-    font-family: 'cwTeXFangSong', serif;
+    font-family: 'Noto Sans TC', serif;
     margin-bottom: 20px;
 }
 
 h2 {
     font-size: 32pt;
-    font-family: 'cwTeXFangSong', serif;
+    font-family: 'Noto Sans TC', serif;
     margin-bottom: 20px;
 }
 
@@ -89,19 +95,92 @@ video {
     border-radius: 4px;
 }
 
-/*.chat-input button {
-    padding: 10px 20px;
-    border: 1px solid #007bff;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    max-width: 120px;
+/* 影片區的按鈕位置配置 */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
-.chat-input button:hover {
-    background-color: #0056b3;
-}*/
+.controls span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+
+/* 蝦趴的輸入框 */
+/* 整體容器樣式 */
+.md-input-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+/* 輸入框樣式 */
+.md-input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+    background: transparent;
+    transition: border-color 0.3s ease;
+}
+
+/* 聚焦時的輸入框樣式 */
+.md-input:focus {
+    border-bottom-color: #000000; /* Material Design 主題色 */
+}
+
+/* 標籤樣式 */
+.md-label {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    font-size: 1rem;
+    color: #757575; /* 灰色 */
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+/* 標籤在聚焦或有內容時的樣式 */
+.md-input:focus + .md-label,
+.md-input:not(:placeholder-shown) + .md-label {
+    top: -20px;
+    font-size: 0.75rem;
+    color: #000000; /* Material Design 主題色 */
+}
+
+/* 聚焦時的下劃線動畫 */
+.md-input:focus + .md-label::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #000000;
+    transform: scaleX(1);
+    transition: transform 0.3s ease;
+}
+
+/* 下劃線動畫的初始狀態 */
+.md-label::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 2px;
+    width: 100%;
+    background-color: #000000;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
 
 /* 按鈕群組樣式 */
 .button-group {
