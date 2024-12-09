@@ -6,6 +6,8 @@ const peerConnectionConfig = {
 	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
 };
 
+serverConnection.onmessage = gotMessageFromServer;
+
 const startwatch = document.getElementById("startwatch");
 const audienceSection = document.getElementById("audienceSection");
 const audienceChoosing = document.getElementById("audienceChoosing");
@@ -67,7 +69,7 @@ function gotMessageFromServer(message) {
 
 	switch (data.type) {
 		case 'login':
-			handleLogin(data.success, data.allUsers, /* data.share */);
+			handleLogin(data.success/*, data.allUsers,  data.share */);
 			break;
 		//when somebody wants to call us
 		case 'offer':
@@ -124,8 +126,6 @@ function send(msg) {
 
 function Login() {
 	localUser = audiencenameInput.value;
-	audienceSection.style.display = "none";
-	audienceChoosing.style.display = "block";
 	if (localUser.length > 0) {
 		send({
 			type: 'login',
@@ -137,7 +137,7 @@ function Login() {
 	}
 }
 
-function handleLogin(success, allhosts, /* share */) {
+function handleLogin(success /*, allhosts,  share */) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
@@ -145,11 +145,9 @@ function handleLogin(success, allhosts, /* share */) {
 	else{
 		
 		audienceSection.style.display = "none";
-		audienceView.style.display = "block";
-		showUsername.innerHTML = audiencenameInput.value;
+		audienceChoosing.style.display = "block";
 		
 	}
-
 	refreshUserList(allhosts);
 
 	
@@ -228,7 +226,9 @@ function handelHangUp() {
 	yourConn = new RTCPeerConnection(peerConnectionConfig);
 	setupConnection(localStream);
 }
-
+/**
+ * @param {string[]} users
+ */
 function refreshUserList(users) {
 	const allAvailableUsers = users.join(', ');
 	console.log('All available users', allAvailableUsers);
