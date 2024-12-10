@@ -22,7 +22,7 @@ body {
 }
 
 body {
-    font-family: ‘Noto Sans TC’, sans-serif;
+    font-family: 'Noto Sans TC', sans-serif;
 }
 
 /* 標題樣式 */
@@ -372,8 +372,8 @@ header {
 }
 
 .logo2 {
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
     background-image: url('Users\ysjhs\Downloads\boat.png');
     background-position: center;
     background-size: cover;
