@@ -87,8 +87,28 @@
       <button class="primary" onclick="Login()" >選船</button>
       <a href="/" class="button">回到碼頭</a>
     </div>-->
-    <div id="audienceChoosing">
-      <h2><span id=" audiencenameInput"></span></h2>
+	<div id="audienceChoosing">
+		<div id="container">
+	        <!-- 左側部分 -->
+		        <div id="leftSection">
+				<img src="boat.png" alt="boat logo" class="logo2">
+		        </div>
+		
+		        <!-- 中間分界線 -->
+		        <div id="divider"></div>
+		
+		        <!-- 右側部分 -->
+		        <div id="rightSection">
+				<div class="md-input-container">
+        				<input type="text" id="hostToWatchInput" class="md-input" placeholder="Enter host's name" required>
+        				<label for="hostToWatchInput" class="md-label">你要上哪艘船</label>
+    				</div>
+				<h2>Available hosts:<span id="allhosts"></span></h2>
+				<button id="primary" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">上船</button>
+				<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
+		        </div>
+		</div>
+      <!--<h2><span id=" audiencenameInput"></span></h2>
 	    <label for="hostToWatchInput">船客你要上哪艘船:</label>
 	    <input type="text" id="hostToWatchInput" placeholder="Enter host's name">
 	    <br>
@@ -96,8 +116,8 @@
 	    <br>
 	    <button class="primary" onclick="callBtnClick()" >上船</button>
 	    <a href="/" class="button">回到碼頭</a>	
-	    <br>
-	  </div>
+	    <br>-->
+	</div>
 
 	<div id="audienceView">
 		<div class="container">
