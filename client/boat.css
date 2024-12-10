@@ -293,7 +293,7 @@ video {
     z-index: 1;
     min-width: 200px;
     color: #FFFFFF; /* 初始白字 */
-    background: #DCDCDC; /* 初始深灰底 */
+    background: #696969; /* 初始深灰底 */
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
