@@ -1,9 +1,17 @@
+/** @type {RTCPeerConnection} */
 let yourConn;
+let candidateQueue = [];
+
+let localUser;
 let connectedUser;
 let serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
 
 const peerConnectionConfig = {
 	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
+};
+
+serverConnection.onopen = () => {
+	console.log('Connected to the signaling server');
 };
 
 serverConnection.onmessage = gotMessageFromServer;
@@ -50,8 +58,8 @@ function callBtnClick() {
 					})
 				);
 
-				audienceSection.style.display = "none";
-				audienceView.style.display = "block";
+				audienceChoosing.style.display = "none";
+				audienceView.style.display = "block";//位置需調整
 			})
 			.catch((error) => {
 				alert('Error when creating an offer', error);
@@ -70,11 +78,17 @@ function gotMessageFromServer(message) {
 
 	switch (data.type) {
 		case 'login':
-			handleLogin(data.success/*, data.allUsers,  data.share */);
+			handleLogin(data.success, data.allhosts /*,  data.share */);
 			break;
 		//when somebody wants to call us
 		case 'offer':
 			handleOffer(data.offer, data.name);
+			break;
+		case 'answer':
+			handleAnswer(data.answer);
+			break;
+		case 'decline':
+			handleDecline(data.message);
 			break;
 		//when a remote peer sends an ice candidate to us
 		case 'candidate':
@@ -97,7 +111,9 @@ function gotMessageFromServer(message) {
 	serverConnection.onerror = errorHandler;
 }
 
-function setupConnection(stream) {
+function setupConnection() {
+	yourConn = new RTCPeerConnection(peerConnectionConfig);
+
 	yourConn.onicecandidate = (event) => {
 		console.log('onicecandidate: ', event.candidate);
 		if (event.candidate) {
@@ -113,7 +129,8 @@ function setupConnection(stream) {
 		showRemoteUsername.innerHTML = connectedUser;
 		remoteVideo.srcObject = event.streams[0];
 	};
-	yourConn.addStream(stream);
+	//yourConn.addStream(stream);
+	callBtnClick();
 }
 
 function errorHandler(error) {
@@ -138,7 +155,7 @@ function Login() {
 	}
 }
 
-function handleLogin(success /*, allhosts,  share */) {
+function handleLogin(success , allhosts/*,  share */) {
 	if (success === false) {
 		alert('Oops...try a different username，小心上了賊船');
 		return;
@@ -154,41 +171,36 @@ function handleLogin(success /*, allhosts,  share */) {
 	
 }
 
-function handleOffer(offer, name) {
-	// Remove existing event listeners
-	startwatch.removeEventListener('click', handleWatchClick);
+/* function handleOffer(offer, name) {
+	connectedUser = name;
+	yourConn
+		.setRemoteDescription(new RTCSessionDescription(offer))
+		.then(() => {
+			while (candidateQueue.length) {
+				const candidate = candidateQueue.shift();
+				yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
+			}
+		})
+		.catch(errorHandler);
 
-	// Define the event handler functions
-	function handleWatchClick() {
-		connectedUser = name;
-		yourConn
-			.setRemoteDescription(new RTCSessionDescription(offer))
-			.then(() => {
-				while (candidateQueue.length) {
-					const candidate = candidateQueue.shift();
-					yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
-				}
-			})
-			.catch(errorHandler);
-
-		// Create an answer to an offer
-		yourConn
-			.createAnswer()
-			.then((answer) => yourConn.setLocalDescription(answer))
-			.then(() => {
-				send({
-					type: 'answer',
-					name: connectedUser,
-					answer: yourConn.localDescription,
-				});
-
-			})
-			.catch((error) => {
-				alert('Error when creating an answer: ' + error);
+	// Create an answer to an offer
+	yourConn
+		.createAnswer()
+		.then((answer) => yourConn.setLocalDescription(answer))
+		.then(() => {
+			send({
+				type: 'answer',
+				name: connectedUser,
+				answer: yourConn.localDescription,
 			});
-	}
+
+		})
+		.catch((error) => {
+			alert('Error when creating an answer: ' + error);
+		});
+
     answerBtn.addEventListener('click', handleWatchClick);
-}
+} */
 
 function handleAnswer(answer) {
 	console.log('answer: ', answer);
@@ -201,6 +213,13 @@ function handleAnswer(answer) {
 			}
 		})
 		.catch(errorHandler);
+}
+
+function handleDecline(message) {
+	audienceSection.style.display = "none";
+	audienceChoosing.style.display = "block";
+	audienceView.style.display = "none";
+	alert(message);
 }
 
 function handleCandidate(candidate) {
@@ -228,10 +247,10 @@ function handelHangUp() {
 	setupConnection(localStream);
 }
 /**
- * @param {string[]} users
+ * @param {string[]} allhosts
  */
-function refreshUserList(users) {
-	const allAvailableUsers = users && Array.isArray(users) ? users.join(',') : '';
+function refreshUserList(allhosts) {
+	const allAvailableUsers = allhosts && Array.isArray(allhosts) ? allhosts.join(',') : '';
 	console.log('All available users', allAvailableUsers);
 	allhosts.innerHTML = allAvailableUsers;
 }

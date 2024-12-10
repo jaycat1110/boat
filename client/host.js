@@ -1,5 +1,7 @@
 /** @type {RTCPeerConnection} */
 let yourConn;
+let candidateQueue = [];
+
 let localUser;
 let localStream;
 let serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
@@ -8,12 +10,15 @@ const peerConnectionConfig = {
 	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
 };
 
+serverConnection.onopen = () => {
+	console.log('Connected to the signaling server');
+};
+
 serverConnection.onmessage = gotMessageFromServer;
 
 const showUsername = document.getElementById('showLocalUserName');
 const callOngoing = document.getElementById('callOngoing');
 const hostnameInput = document.getElementById('hostnameInput');
-const showAllUsers = document.getElementById('allUsers');
 const startscreem = document.getElementById("startscreem");
 const hostSection = document.getElementById("hostSection");
 const localVideo = document.getElementById('localVideo');
@@ -74,7 +79,10 @@ function gotMessageFromServer(message) {
 
     switch (data.type) {
 		case 'login':
-			handleLogin(data.success, /*data.allUsers, data.share*/);
+			handleLogin(data.success/*, data.allhosts, data.share*/);
+			break;
+		case 'offer':
+			handleOffer(data.offer, data.name);
 			break;
 		case 'candidate':
 			handleCandidate(data.candidate);
@@ -172,7 +180,7 @@ function Login() {
 	}
 }
 
-function handleLogin(success, /* allUsers , share */) {
+function handleLogin(success/*, allhosts , share */) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
@@ -189,13 +197,21 @@ function handleLogin(success, /* allUsers , share */) {
 
 
 // Define the event handler functions
-function handleAnswerClick() {
+function handleOffer(offer, name) {
+	console.log('Received offer:', offer);
+    console.log('Connected user:', name);
+    console.log('YourConn status:', yourConn);
+
 	connectedUser = name;
+	// 設置遠端描述
 	yourConn
 		.setRemoteDescription(new RTCSessionDescription(offer))
 		.then(() => {
+			console.log('Processing candidate queue:', candidateQueue);
+			// 處理 ICE 候選者
 			while (candidateQueue.length) {
 				const candidate = candidateQueue.shift();
+				console.log('Adding ICE candidate:', candidate);
 				yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
 			}
 		})
@@ -206,6 +222,7 @@ function handleAnswerClick() {
 		.createAnswer()
 		.then((answer) => yourConn.setLocalDescription(answer))
 		.then(() => {
+			console.log('Local description set successfully.');
 			send({
 				type: 'answer',
 				name: connectedUser,
@@ -292,10 +309,6 @@ function handelHangUp() {
 	yourConn = new RTCPeerConnection(peerConnectionConfig);
 	setupConnection(localStream);
 }
-
-/**
- * @param {string[]} users
- */
 
 // 送出訊息按鈕事件
 sendButton.addEventListener("click", () => {

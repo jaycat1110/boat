@@ -29,6 +29,12 @@ const allUsers = new Set();
  */
 const allhosts = new Set();
 
+/**
+ * @type {Map<string, RTC>}
+ */
+const RTC = new Map();
+
+
 wss.on('connection', (ws) => {
 	ws.on('message', (message) => {
 		/** @type {{name :string}} */
@@ -46,9 +52,6 @@ wss.on('connection', (ws) => {
 		//switching type of the user message
 		switch (data.type) {
 			//when a user tries to login
-			case 'new':{
-				
-			}
 			case 'login': {
 				console.log('User logged', data.name);
 				if (users[data.name]) {
@@ -67,10 +70,8 @@ wss.on('connection', (ws) => {
 						type: 'login',
 						success: true,
 						//share: data.share,
-						//allUsers: Array.from(allUsers),
+						allhosts: Array.from(allhosts),
 					});
-
-					notifyUsersChange(data.name);
 				}
 				break;
 			}
@@ -79,6 +80,7 @@ wss.on('connection', (ws) => {
 				console.log('available host lists');
 				allhosts.add(data.name);
 				notifyUsersChange(data.name);
+				break;
 			}
 
 			case 'offer': {
