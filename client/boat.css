@@ -22,7 +22,7 @@ body {
 }
 
 body {
-    font-family: ‘Noto Sans TC’, sans-serif;
+    font-family: 'Noto Sans TC', sans-serif;
 }
 
 /* 標題樣式 */
@@ -34,6 +34,12 @@ h1 {
 
 h2 {
     font-size: 32pt;
+    font-family: 'Noto Sans TC', serif;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 20pt;
     font-family: 'Noto Sans TC', serif;
     margin-bottom: 20px;
 }
@@ -293,7 +299,7 @@ video {
     z-index: 1;
     min-width: 200px;
     color: #FFFFFF; /* 初始白字 */
-    background: #DCDCDC; /* 初始深灰底 */
+    background: #696969; /* 初始深灰底 */
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
@@ -361,6 +367,14 @@ header {
     width: 20%;
     height: 30%;
     background-image: url('Users/ysjhs/Downloads/鐵達尼號.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.logo2 {
+    width: 100%;
+    height: 100%;
+    background-image: url('Users\ysjhs\Downloads\boat.png');
     background-position: center;
     background-size: cover;
 }

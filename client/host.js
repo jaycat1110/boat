@@ -314,7 +314,7 @@ function handelHangUp() {
 sendButton.addEventListener("click", () => {
     const message = chatMessage.value.trim();
     if (message !== "") {
-        addMessageToChat("你", message);
+        addMessageToChat("船主❤", message);
         chatMessage.value = ""; // 清空輸入框
     }
 });

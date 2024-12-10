@@ -24,10 +24,10 @@ const audienceView = document.getElementById("audienceView");//船艙開趴介�
 const hostToWatchInput = document.getElementById('hostToWatchInput');//船客要上哪個船長的船 輸入框
 const showRemoteUsername = document.getElementById('showRemoteUserName');//顯示船長名稱
 const allhosts = document.getElementById('allhosts');//所有使用者名稱
-
-
-const chatWindow = document.getElementById("chatWindow");//聊天室
+const chatWindow = document.getElementById("chatWindow");
 const chatMessage = document.getElementById("chatMessage");
+const emojiButton = document.getElementById('emojiButton');
+const emojiPicker = document.getElementById('emojiPicker');
 const sendButton = document.getElementById("sendButton");
 
 //要包在確認名稱正確的function內
@@ -254,3 +254,40 @@ function refreshUserList(allhosts) {
 	console.log('All available users', allAvailableUsers);
 	allhosts.innerHTML = allAvailableUsers;
 }
+
+// 送出訊息按鈕事件
+sendButton.addEventListener("click", () => {
+    const message = chatMessage.value.trim();
+    if (message !== "") {
+        addMessageToChat(localUser, message);
+        chatMessage.value = ""; // 清空輸入框
+    }
+});
+
+// 新增訊息到聊天室
+function addMessageToChat(user, message) {
+    const messageElement = document.createElement("div");
+    messageElement.textContent = `${user}: ${message}`;
+    chatWindow.appendChild(messageElement);
+    chatWindow.scrollTop = chatWindow.scrollHeight; // 自動捲動到底部
+}
+
+// 點擊 Emoji 按鈕時，顯示或隱藏選擇器
+emojiButton.addEventListener('click', () => {
+    emojiPicker.classList.toggle('hidden');
+});
+
+// 點擊 Emoji 時，將其插入輸入框
+emojiPicker.addEventListener('click', (event) => {
+    if (event.target.classList.contains('emoji')) {
+        chatMessage.value += event.target.textContent;
+        emojiPicker.classList.add('hidden'); // 選擇後隱藏選擇器
+    }
+});
+
+// 點擊其他地方隱藏 Emoji 選擇器
+document.addEventListener('click', (event) => {
+    if (!emojiPicker.contains(event.target) && event.target !== emojiButton) {
+        emojiPicker.classList.add('hidden');
+    }
+});
