@@ -8,17 +8,17 @@ const peerConnectionConfig = {
 
 serverConnection.onmessage = gotMessageFromServer;
 
-const startwatch = document.getElementById("startwatch");
-const audienceSection = document.getElementById("audienceSection");
-const audienceChoosing = document.getElementById("audienceChoosing");
-const remoteVideo = document.getElementById('remoteVideo');
-const audienceView = document.getElementById("audienceView");
-const hostToWatchInput = document.getElementById('hostToWatchInput');
-const showRemoteUsername = document.getElementById('showRemoteUserName');
-const allhosts = document.getElementById('allhosts');
+//const startwatch = document.getElementById("startwatch");	//
+const audienceSection = document.getElementById("audienceSection");//船客資料設定介面
+const audienceChoosing = document.getElementById("audienceChoosing");//船客選船設定
+const remoteVideo = document.getElementById('remoteVideo');	//船艙開趴遠端視訊
+const audienceView = document.getElementById("audienceView");//船艙開趴介面
+const hostToWatchInput = document.getElementById('hostToWatchInput');//船客要上哪個船長的船 輸入框
+const showRemoteUsername = document.getElementById('showRemoteUserName');//顯示船長名稱
+const allhosts = document.getElementById('allhosts');//所有使用者名稱
 
 
-const chatWindow = document.getElementById("chatWindow");
+const chatWindow = document.getElementById("chatWindow");//聊天室
 const chatMessage = document.getElementById("chatMessage");
 const sendButton = document.getElementById("sendButton");
 
@@ -38,8 +38,7 @@ function callBtnClick() {
 		console.log('create an offer to ', hostToWatch);
 		console.log('connection state', yourConn.connectionState);
 		console.log('signalling state', yourConn.signalingState);
-		audienceSection.style.display = "none";
-    	audienceView.style.display = "block";
+		
 		yourConn
 			.createOffer()
 			.then((offer) => {
@@ -51,6 +50,8 @@ function callBtnClick() {
 					})
 				);
 
+				audienceSection.style.display = "none";
+				audienceView.style.display = "block";
 			})
 			.catch((error) => {
 				alert('Error when creating an offer', error);
@@ -139,7 +140,7 @@ function Login() {
 
 function handleLogin(success /*, allhosts,  share */) {
 	if (success === false) {
-		alert('Oops...try a different username');
+		alert('Oops...try a different username，小心上了賊船');
 		return;
 	}
 	else{
@@ -230,7 +231,7 @@ function handelHangUp() {
  * @param {string[]} users
  */
 function refreshUserList(users) {
-	const allAvailableUsers = users.join(', ');
+	const allAvailableUsers = users && Array.isArray(users) ? users.join(',') : '';
 	console.log('All available users', allAvailableUsers);
 	allhosts.innerHTML = allAvailableUsers;
 }
