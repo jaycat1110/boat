@@ -79,7 +79,7 @@ function gotMessageFromServer(message) {
 
     switch (data.type) {
 		case 'login':
-			handleLogin(data.success/*, data.allhosts, data.share*/);
+			handleLogin(data.success, data.allhosts/*, data.share*/);
 			break;
 		case 'offer':
 			handleOffer(data.offer, data.name);
@@ -92,6 +92,9 @@ function gotMessageFromServer(message) {
 			break;
         case 'hangup':
 			handelHangUp();
+			break;
+		case 'users':
+			refreshUserList(data.users);
 			break;
         default:
 			console.log(message);
@@ -180,21 +183,29 @@ function Login() {
 	}
 }
 
-function handleLogin(success/*, allhosts , share */) {
+function handleLogin(success, allhosts /*, share */) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
 	}
+	
 	else{
-		
+		refreshUserList(allhosts);
 		hostSection.style.display = "none";
 		hostView.style.display = "block";
-		showUsername.innerHTML = hostnameInput.value;
+		//showUsername.innerHTML = hostnameInput.value;
 		
 	}
 
 }
-
+/**
+ * @param {string[]} users
+ */
+function refreshUserList(users) {
+	const allAvailableUsers = users.join(', ');
+	console.log('All available users', allAvailableUsers);
+	
+}
 
 // Define the event handler functions
 function handleOffer(offer, name) {

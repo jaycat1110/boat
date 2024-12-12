@@ -16,7 +16,7 @@ serverConnection.onopen = () => {
 
 serverConnection.onmessage = gotMessageFromServer;
 
-//const startwatch = document.getElementById("startwatch");	//
+//const startwatch = document.getElementById("startswith");	//
 const audienceSection = document.getElementById("audienceSection");//船客資料設定介面
 const audienceChoosing = document.getElementById("audienceChoosing");//船客選船設定
 const remoteVideo = document.getElementById('remoteVideo');	//船艙開趴遠端視訊
@@ -138,8 +138,22 @@ function errorHandler(error) {
 }
 
 function send(msg) {
-	console.log('sending:\n', msg);
-	serverConnection.send(JSON.stringify(msg));
+
+	if (typeof msg !== 'object' || msg === null) {
+		console.error('無效的訊息格式:', msg);
+		return;
+	}
+
+	console.log('正在發送:\n', msg);
+
+	try {
+		serverConnection.send(JSON.stringify(msg));
+		console.log('訊息發送成功');
+		console.log(allhosts);
+	} catch (error) {
+		console.error('訊息發送失敗:', error);
+	}
+	
 }
 
 function Login() {
@@ -247,6 +261,7 @@ function handelHangUp() {
 	setupConnection(localStream);
 }
 /**
+ * @param {boolean} success
  * @param {string[]} allhosts
  */
 function refreshUserList(allhosts) {

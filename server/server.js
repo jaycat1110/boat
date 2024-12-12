@@ -62,8 +62,7 @@ wss.on('connection', (ws) => {
 				} else {
 					console.log('save user connection on the server');
 					users[data.name] = ws;
-					allUsers.add(data.name);
-
+					allhosts.add(data.name);
 					ws.name = data.name;
 
 					sendTo(ws, {
@@ -166,7 +165,7 @@ wss.on('connection', (ws) => {
 	ws.on('close', () => {
 		if (ws.name) {
 			delete users[ws.name];
-			allUsers.delete(ws.name);
+	//		allUsers.delete(ws.name);
 			allhosts.delete(ws.name);
 
 			if (ws.otherName) {
