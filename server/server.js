@@ -23,6 +23,7 @@ const wss = new WebSocketServer({ server: server });
  * @type {Map<string, WebSocket>}
  */
 const users = new Map();
+const hosts = new Map();
 const allusers = new Set();
 const allhosts = new Set();
 
@@ -65,6 +66,7 @@ wss.on('connection', (ws) => {
 				} else {
 					console.log('save user connection on the server');
 					users[data.name] = ws;
+					hosts[data.name] = ws;
 					allhosts.add(data.name);
 					ws.name = data.name;
 
@@ -111,7 +113,7 @@ wss.on('connection', (ws) => {
 				// Calling different user
 				console.log('Sending offer to: ', data.name);
 
-				const conn = users[data.name];
+				const conn = hosts[data.name];
 
 				if (conn !== undefined) {
 					//setting that UserA connected with UserB

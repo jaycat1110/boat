@@ -3,7 +3,7 @@ let yourConn;
 let candidateQueue = [];
 
 let localUser;
-let connectedUser;
+let connectedhost;
 
 // 建立 WebSocket 連接到 signaling server
 let serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
@@ -46,31 +46,34 @@ function callBtnClick() {
 	const hostToWatch = hostToWatchInput.value; //要上哪艘船
 
 	if (hostToWatch.length > 0) {
-		connectedUser = hostToWatch;
+		connectedhost = hostToWatch;
 		console.log('create an offer to ', hostToWatch);		//在控制台印出正在呼叫的用戶名稱
 		console.log('connection state', yourConn.connectionState);	//連接狀態
-		console.log('signalling state', yourConn.signalingState);	//信號狀態
-		
+//		console.log('signalling state', yourConn.signalingState);	//信號狀態
 		yourConn
 			.createOffer()	//建立offer
 			.then((offer) => {
-				yourConn.setLocalDescription(offer).then(
+				return yourConn.setLocalDescription(offer);
+			})
+			.then(() => {
 					send({
 						type: 'offer',
-						name: connectedUser,
-						offer: offer,	//傳送offer給伺服器
-					})
-				);
+						name: connectedhost,
+						offer: yourConn.localDescription,	//傳送offer給伺服器
+					});
+					audienceChoosing.style.display = "none";
+					audienceView.style.display = "block";//位置需調整
+				})
+				.catch((error) =>{
+					alert('Error when creating an offer: ' + error);
+					console.error('Error when creating an offer: ', error);
+				});
+	}else {
+		alert("Username can't be blank!");
+	}
 				//顯示呼叫進行中
-				audienceChoosing.style.display = "none";
-				audienceView.style.display = "block";//位置需調整
-			})
-			.catch((error) => {
-				alert('Error when creating an offer', error);	//顯示錯誤訊息
-				console.error('Error when creating an offer', error);//控制台顯示錯誤
-			});
-	} else alert("username can't be blank!");
 }
+
 
 window.addEventListener('beforeunload', () => {
 	serverConnection.close();
@@ -123,15 +126,16 @@ function setupConnection() {
 		if (event.candidate) {
 			send({
 				type: 'candidate',
-				name: connectedUser,
+				name: connectedhost,
 				candidate: event.candidate,
 			});
 		}
 	};
 	yourConn.ontrack = (event) => {
 		console.log('got remote stream');
-		showRemoteUsername.innerHTML = connectedUser;
+		showRemoteUsername.innerHTML = connectedhost;
 		remoteVideo.srcObject = event.streams[0];
+		remoteVideo.hidden = false;
 	};
 	//yourConn.addStream(stream);
 	callBtnClick();
@@ -153,7 +157,7 @@ function send(msg) {
 	try {
 		serverConnection.send(JSON.stringify(msg));
 		console.log('訊息發送成功');
-		console.log(allhosts);
+		console.log('allhosts');
 	} catch (error) {
 		console.error('訊息發送失敗:', error);
 	}
@@ -177,12 +181,12 @@ function boardTheBoat(){
 	// 确保输入框中有用户名
     const hostToWatch = hostToWatchInput.value.trim();
     if (!hostToWatch) {
-        alert("请输入要连接的用户名！");
+        alert("请输入要上船的船長！");
         return;
     }
 
-    connectedUser = hostToWatch;
-    console.log(`Attempting to board the boat of host: ${connectedUser}`);
+    connectedhost = hostToWatch;
+    console.log(`Attempting to board the boat of host: ${connectedhost}`);
 
     // 设置 PeerConnection
     if (!yourConn) {
@@ -197,7 +201,7 @@ function boardTheBoat(){
         .then(() => {
             send({
                 type: 'offer',
-                name: connectedUser,
+                name: connectedhost,
                 offer: yourConn.localDescription,
             });
             console.log("Offer sent to signaling server.");
@@ -209,6 +213,7 @@ function boardTheBoat(){
     // 处理远端视频
     yourConn.ontrack = (event) => {
         console.log("Received remote track:", event.streams[0]);
+		audienceView.style.display= 'block';
         remoteVideo.srcObject = event.streams[0]; // 将远端流绑定到视频标签
         remoteVideo.play(); // 开始播放远端视频
     };
@@ -229,8 +234,8 @@ function handleLogin(success , allhosts/*,  share */) {
 	}
 }
 
-/* function handleOffer(offer, name) {
-	connectedUser = name;
+function handleOffer(offer, name) {
+	connectedhost = name;
 	yourConn
 		.setRemoteDescription(new RTCSessionDescription(offer))
 		.then(() => {
@@ -240,7 +245,7 @@ function handleLogin(success , allhosts/*,  share */) {
 			}
 		})
 		.catch(errorHandler);
-
+	
 	// Create an answer to an offer
 	yourConn
 		.createAnswer()
@@ -248,7 +253,7 @@ function handleLogin(success , allhosts/*,  share */) {
 		.then(() => {
 			send({
 				type: 'answer',
-				name: connectedUser,
+				name: connectedhost,
 				answer: yourConn.localDescription,
 			});
 
@@ -256,9 +261,9 @@ function handleLogin(success , allhosts/*,  share */) {
 		.catch((error) => {
 			alert('Error when creating an answer: ' + error);
 		});
-
+	
     answerBtn.addEventListener('click', handleWatchClick);
-} */
+} 
 
 function handleAnswer(answer) {
 	console.log('answer: ', answer);
@@ -293,7 +298,7 @@ function handleLeave() {
 }
 
 function handelHangUp() {
-	connectedUser = null;
+	connectedhost = null;
 	remoteVideo.src = null;
 	remoteVideo.hidden = true;
 	showRemoteUsername.innerHTML = '';

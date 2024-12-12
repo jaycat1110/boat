@@ -105,18 +105,22 @@ function gotMessageFromServer(message) {
 
 function getUserMediaSuccess(stream) {
 	console.log('Media stream obtained successfully');
-	localStream = stream;
-	localVideo.srcObject = stream;
-	yourConn = new RTCPeerConnection(peerConnectionConfig);
+	localStream = stream; 	// 儲存本地流
+	localVideo.srcObject = stream;	// 將流設定為本地視頻的來源
+	if(!yourConn){
+	yourConn = new RTCPeerConnection(peerConnectionConfig);//建立新的RTCPeerConnection
+	}
+	console.log('connection state inside getusermedia', yourConn.connectionState);// 記錄連線狀態
 
-	console.log('connection state inside getusermedia', yourConn.connectionState);
-
-	setupConnection(stream);
+	setupConnection(stream);//設定連接
 }
 
 function setupConnection(stream) {
-	yourConn = new RTCPeerConnection(peerConnectionConfig);
-
+	//yourConn = new RTCPeerConnection(peerConnectionConfig);
+	// 在連接中添加本地視頻流
+	// stream.getTracks().forEach((track) => {
+	// 	yourConn.addTrack(track, stream);
+	// });
 	yourConn.onicecandidate = (event) => {
 		console.log('onicecandidate: ', event.candidate);
 		if (event.candidate) {
@@ -133,9 +137,9 @@ function setupConnection(stream) {
 		remoteVideo.srcObject = event.streams[0];
 		remoteVideo.hidden = false;
 	}; */
-	stream.getTracks().forEach((track) => {
-        yourConn.addTrack(track, stream);
-    });
+	// stream.getTracks().forEach((track) => {
+    //     yourConn.addTrack(track, stream);
+    // });
 }
 
 function errorHandler(error) {
@@ -208,12 +212,36 @@ function refreshUserList(users) {
 	
 }
 
-// Define the event handler functions
+// Define the event handler functions ---server to host offer
 function handleOffer(offer, name) {
 	console.log('Received offer:', offer);
     console.log('Connected user:', name);
     console.log('YourConn status:', yourConn);
-
+	if(!yourConn){
+		console.error('yourConn is not initialized.');
+		yourConn = new RTCPeerConnection(peerConnectionConfig);
+		        // 在這裡設定 ICE 候選者回調等
+				yourConn.onicecandidate = (event) => {
+					if (event.candidate) {
+						send({
+							type: 'candidate',
+							name: connectedUser,
+							candidate: event.candidate,
+						});
+					}
+				};
+				yourConn.ontrack = (event) => {
+					console.log('Remote stream received');
+					// 假設有一個遠端視頻元素
+					remoteVideo.srcObject = event.streams[0];
+				};
+				// 如果需要，還可以把本地流添加到 yourConn
+				if (localStream) {
+					localStream.getTracks().forEach((track) => {
+						yourConn.addTrack(track, localStream);
+					});
+				}
+	}
 	connectedUser = name;
 	// 設置遠端描述
 	yourConn
@@ -221,14 +249,21 @@ function handleOffer(offer, name) {
 		.then(() => {
 			console.log('Processing candidate queue:', candidateQueue);
 			// 處理 ICE 候選者
-			while (candidateQueue.length) {
-				const candidate = candidateQueue.shift();
-				console.log('Adding ICE candidate:', candidate);
-				yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
-			}
+			return yourConn.createAnswer();
+		})
+		.then((answer) => {
+			return yourConn.setLocalDescription(answer);
+		})
+		.then(() =>{
+			console.log('Sending answer to the server');
+            send({
+                type: 'answer',
+                name: connectedUser,
+                answer: yourConn.localDescription,
+            });
 		})
 		.catch(errorHandler);
-
+}
 	// Create an answer to an offer
 	yourConn
 		.createAnswer()
@@ -244,7 +279,7 @@ function handleOffer(offer, name) {
 		.catch((error) => {
 			alert('Error when creating an answer: ' + error);
 		});
-}
+
 
 turnOffVideoBtn.addEventListener('click', () => {
     turnOffVideo();
@@ -274,8 +309,7 @@ function turnOffVideo() {
 }
 
 function turnOnVideo() {
-    navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         .then((stream) => {
             localStream = stream;
 
