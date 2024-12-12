@@ -23,7 +23,7 @@ const remoteVideo = document.getElementById('remoteVideo');	//船艙開趴遠端
 const audienceView = document.getElementById("audienceView");//船艙開趴介面
 const hostToWatchInput = document.getElementById('hostToWatchInput');//船客要上哪個船長的船 輸入框
 const showRemoteUsername = document.getElementById('showRemoteUserName');//顯示船長名稱
-const allhosts = document.getElementById('allhosts');//所有使用者名稱
+const showallhosts = document.getElementById('allhosts');//所有使用者名稱
 const chatWindow = document.getElementById("chatWindow");
 const chatMessage = document.getElementById("chatMessage");
 const emojiButton = document.getElementById('emojiButton');
@@ -100,9 +100,9 @@ function gotMessageFromServer(message) {
 		case 'hangup':
 			handelHangUp();
 			break;
-		case 'users':
-			refreshUserList(data.users);
-			break;
+		// case 'users':
+		// 	refreshUserList(data.users);
+		// break;
 		default:
 			console.log(message);
 			break;
@@ -160,7 +160,8 @@ function Login() {
 	localUser = audiencenameInput.value;
 	if (localUser.length > 0) {
 		send({
-			type: 'login',
+			type: 'audiencelogin',
+			// type: 'login',
 			name: localUser,
 		});
 	} 
@@ -168,19 +169,21 @@ function Login() {
         alert('Username cannot be blank!');
 	}
 }
-
+/**
+* @param {boolean} success 
+* @param {string[]} allhosts
+*/
 function handleLogin(success , allhosts/*,  share */) {
 	if (success === false) {
 		alert('Oops...try a different username，小心上了賊船');
 		return;
 	}
 	else{
-		
 		audienceSection.style.display = "none";
 		audienceChoosing.style.display = "block";
-		
+		refreshUserList(allhosts);
 	}
-	refreshUserList(allhosts);
+	
 
 	
 }
@@ -260,14 +263,12 @@ function handelHangUp() {
 	yourConn = new RTCPeerConnection(peerConnectionConfig);
 	setupConnection(localStream);
 }
-/**
- * @param {boolean} success
- * @param {string[]} allhosts
- */
-function refreshUserList(allhosts) {
-	const allAvailableUsers = allhosts && Array.isArray(allhosts) ? allhosts.join(',') : '';
+
+function refreshUserList(users) {
+	//const allAvailableUsers = allhosts && Array.isArray(allhosts) ? allhosts.join(',') : '';
+	const allAvailableUsers = users.join(', ');
 	console.log('All available users', allAvailableUsers);
-	allhosts.innerHTML = allAvailableUsers;
+	showallhosts.innerHTML = allAvailableUsers;
 }
 
 // 送出訊息按鈕事件

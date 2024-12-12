@@ -174,7 +174,8 @@ function Login() {
 	localUser = hostnameInput.value;
 	if (localUser.length > 0) {
 		send({
-			type: 'login',
+			type: 'hostlogin',
+			// type: 'login',
 			name: localUser,
 		});
 	} 
@@ -193,7 +194,7 @@ function handleLogin(success, allhosts /*, share */) {
 		refreshUserList(allhosts);
 		hostSection.style.display = "none";
 		hostView.style.display = "block";
-		//showUsername.innerHTML = hostnameInput.value;
+		showUsername.innerHTML = hostnameInput.value;
 		
 	}
 
