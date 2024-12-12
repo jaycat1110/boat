@@ -4,16 +4,19 @@ let candidateQueue = [];
 
 let localUser;
 let connectedUser;
+
+// 建立 WebSocket 連接到 signaling server
 let serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
 
 const peerConnectionConfig = {
 	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
 };
-
+// 當 WebSocket 連接成功時，會觸發此事件
 serverConnection.onopen = () => {
 	console.log('Connected to the signaling server');
 };
 
+// 當接收到來自伺服器的訊息時，會觸發此事件
 serverConnection.onmessage = gotMessageFromServer;
 
 //const startwatch = document.getElementById("startswith");	//
@@ -30,6 +33,7 @@ const emojiButton = document.getElementById('emojiButton');
 const emojiPicker = document.getElementById('emojiPicker');
 const sendButton = document.getElementById("sendButton");
 
+
 //要包在確認名稱正確的function內
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -39,31 +43,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function callBtnClick() {
-	const hostToWatch = hostToWatchInput.value;
+	const hostToWatch = hostToWatchInput.value; //要上哪艘船
 
 	if (hostToWatch.length > 0) {
 		connectedUser = hostToWatch;
-		console.log('create an offer to ', hostToWatch);
-		console.log('connection state', yourConn.connectionState);
-		console.log('signalling state', yourConn.signalingState);
+		console.log('create an offer to ', hostToWatch);		//在控制台印出正在呼叫的用戶名稱
+		console.log('connection state', yourConn.connectionState);	//連接狀態
+		console.log('signalling state', yourConn.signalingState);	//信號狀態
 		
 		yourConn
-			.createOffer()
+			.createOffer()	//建立offer
 			.then((offer) => {
 				yourConn.setLocalDescription(offer).then(
 					send({
 						type: 'offer',
 						name: connectedUser,
-						offer: offer,
+						offer: offer,	//傳送offer給伺服器
 					})
 				);
-
+				//顯示呼叫進行中
 				audienceChoosing.style.display = "none";
 				audienceView.style.display = "block";//位置需調整
 			})
 			.catch((error) => {
-				alert('Error when creating an offer', error);
-				console.error('Error when creating an offer', error);
+				alert('Error when creating an offer', error);	//顯示錯誤訊息
+				console.error('Error when creating an offer', error);//控制台顯示錯誤
 			});
 	} else alert("username can't be blank!");
 }
@@ -169,6 +173,46 @@ function Login() {
         alert('Username cannot be blank!');
 	}
 }
+function boardTheBoat(){
+	// 确保输入框中有用户名
+    const hostToWatch = hostToWatchInput.value.trim();
+    if (!hostToWatch) {
+        alert("请输入要连接的用户名！");
+        return;
+    }
+
+    connectedUser = hostToWatch;
+    console.log(`Attempting to board the boat of host: ${connectedUser}`);
+
+    // 设置 PeerConnection
+    if (!yourConn) {
+        setupConnection();
+    }
+
+    // 创建 Offer 并发送给 Signaling Server
+    yourConn.createOffer()
+        .then((offer) => {
+            return yourConn.setLocalDescription(offer);
+        })
+        .then(() => {
+            send({
+                type: 'offer',
+                name: connectedUser,
+                offer: yourConn.localDescription,
+            });
+            console.log("Offer sent to signaling server.");
+        })
+        .catch((error) => {
+            console.error("Error creating or sending offer:", error);
+        });
+
+    // 处理远端视频
+    yourConn.ontrack = (event) => {
+        console.log("Received remote track:", event.streams[0]);
+        remoteVideo.srcObject = event.streams[0]; // 将远端流绑定到视频标签
+        remoteVideo.play(); // 开始播放远端视频
+    };
+}
 /**
 * @param {boolean} success 
 * @param {string[]} allhosts
@@ -183,9 +227,6 @@ function handleLogin(success , allhosts/*,  share */) {
 		audienceChoosing.style.display = "block";
 		refreshUserList(allhosts);
 	}
-	
-
-	
 }
 
 /* function handleOffer(offer, name) {
