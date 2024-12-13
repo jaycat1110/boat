@@ -356,11 +356,28 @@ function handelHangUp() {
 	setupConnection(localStream);
 }
 
-// 送出訊息按鈕事件
+/*// 送出訊息按鈕事件
 sendButton.addEventListener("click", () => {
     const message = chatMessage.value.trim();
     if (message !== "") {
         addMessageToChat("船主❤", message);
+        chatMessage.value = ""; // 清空輸入框
+    }
+});
+
+// 新增訊息到聊天室
+function addMessageToChat(user, message) {
+    const messageElement = document.createElement("div");
+    messageElement.textContent = `${user}: ${message}`;
+    chatWindow.appendChild(messageElement);
+    chatWindow.scrollTop = chatWindow.scrollHeight; // 自動捲動到底部
+}
+*/
+// 送出訊息按鈕事件
+sendButton.addEventListener("click", () => {
+    const message = chatMessage.value.trim();
+    if (message !== "") {
+        addMessageToChat(localUser, message);
         chatMessage.value = ""; // 清空輸入框
     }
 });
