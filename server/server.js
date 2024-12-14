@@ -23,14 +23,11 @@ const wss = new WebSocketServer({ server: server });
  * @type {Map<string, WebSocket>}
  */
 const users = new Map();
-const hosts = new Map();
-const allusers = new Set();
-const allhosts = new Set();
-
+const allUsers = new Set();
 /**
  * @type {Set<string>}
  */
-
+const allhosts = new Set();
 
 /**
  * @type {Map<string, RTC>}
@@ -55,9 +52,8 @@ wss.on('connection', (ws) => {
 		//switching type of the user message
 		switch (data.type) {
 			//when a user tries to login
-			case 'hostlogin': {
-				console.log('host logged', data.name);
-
+			case 'login': {
+				console.log('User logged', data.name);
 				if (users[data.name]) {
 					sendTo(ws, {
 						type: 'login',
@@ -66,30 +62,8 @@ wss.on('connection', (ws) => {
 				} else {
 					console.log('save user connection on the server');
 					users[data.name] = ws;
-					hosts[data.name] = ws;
-					allhosts.add(data.name);
-					ws.name = data.name;
+					allUsers.add(data.name);
 
-					sendTo(ws, {
-						type: 'login',
-						success: true,
-						//share: data.share,
-						allhosts: Array.from(allhosts),
-					});
-				}
-				break;
-			}
-			case 'audiencelogin': {
-				console.log('audience logged', data.name);
-				if (users[data.name]) {
-					sendTo(ws, {
-						type: 'login',
-						success: false,
-					});
-				} else {
-					console.log('save user connection on the server');
-					users[data.name] = ws;
-					allusers.add(data.name);
 					ws.name = data.name;
 
 					sendTo(ws, {
@@ -113,7 +87,7 @@ wss.on('connection', (ws) => {
 				// Calling different user
 				console.log('Sending offer to: ', data.name);
 
-				const conn = hosts[data.name];
+				const conn = users[data.name];
 
 				if (conn !== undefined) {
 					//setting that UserA connected with UserB
@@ -192,7 +166,7 @@ wss.on('connection', (ws) => {
 	ws.on('close', () => {
 		if (ws.name) {
 			delete users[ws.name];
-	//		allUsers.delete(ws.name);
+			allUsers.delete(ws.name);
 			allhosts.delete(ws.name);
 
 			if (ws.otherName) {

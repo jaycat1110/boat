@@ -104,8 +104,7 @@
         				<label for="hostToWatchInput" class="md-label">你要上哪艘船</label>
     				</div>
 				<h3>Available hosts:<span id="allhosts"></span></h3>
-				
-				<button id="primary" onclick="boardTheBoat()" href="javascript: void(0)" class="btn2 from-center">上船</button>
+				<button id="primary" onclick="share('m')" href="javascript: void(0)" class="btn2 from-center">上船</button>
 				<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
 		        </div>
 		</div>
@@ -124,7 +123,10 @@
 		<div class="container">
 		<!-- 左側影片視訊區域 -->
 			<h2>船艙開趴囉~</h2>
+			<h1 id="endofcall"></h1>
+			<video id="localVideo" autoplay muted hidden></video>
 			<video id="remoteVideo" autoplay></video>
+			<button onclick="callBtnClick()" class="primary">Call</button>
 			<b><span id="showRemoteUserName"></span></b>
 			<br>
 			<a href="/"><button  onclick="hangUpClick()" class="red-button" align="center" >離開趴踢</button></a>
@@ -155,6 +157,7 @@
 
 	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 	<script src="audience.js"></script>
+	<script src="chatroom.js"></script>
 	<link rel="stylesheet" href="boat.css">
 </body>
 </html>

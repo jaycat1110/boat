@@ -7,7 +7,7 @@ let localStream;
 let serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
 
 const peerConnectionConfig = {
-	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478' }, { urls: 'stun:stun.l.google.com:19302' }],
+	iceServers: [{ urls: 'stun:stun.stunprotocol.org:3478'}, { urls: 'stun:stun.l.google.com:19302' }],
 };
 
 serverConnection.onopen = () => {
@@ -79,7 +79,7 @@ function gotMessageFromServer(message) {
 
     switch (data.type) {
 		case 'login':
-			handleLogin(data.success, data.allhosts/*, data.share*/);
+			handleLogin(data.success/*, data.allhosts, data.share*/);
 			break;
 		case 'offer':
 			handleOffer(data.offer, data.name);
@@ -93,9 +93,6 @@ function gotMessageFromServer(message) {
         case 'hangup':
 			handelHangUp();
 			break;
-		case 'users':
-			refreshUserList(data.users);
-			break;
         default:
 			console.log(message);
 			break;
@@ -105,22 +102,17 @@ function gotMessageFromServer(message) {
 
 function getUserMediaSuccess(stream) {
 	console.log('Media stream obtained successfully');
-	localStream = stream; 	// 儲存本地流
-	localVideo.srcObject = stream;	// 將流設定為本地視頻的來源
-	if(!yourConn){
-	yourConn = new RTCPeerConnection(peerConnectionConfig);//建立新的RTCPeerConnection
-	}
-	console.log('connection state inside getusermedia', yourConn.connectionState);// 記錄連線狀態
+	localStream = stream;
+	localVideo.srcObject = stream;
+	yourConn = new RTCPeerConnection(peerConnectionConfig);
 
-	setupConnection(stream);//設定連接
+	console.log('connection state inside getusermedia', yourConn.connectionState);
+
+	setupConnection(stream);
 }
 
 function setupConnection(stream) {
-	//yourConn = new RTCPeerConnection(peerConnectionConfig);
-	// 在連接中添加本地視頻流
-	// stream.getTracks().forEach((track) => {
-	// 	yourConn.addTrack(track, stream);
-	// });
+
 	yourConn.onicecandidate = (event) => {
 		console.log('onicecandidate: ', event.candidate);
 		if (event.candidate) {
@@ -137,9 +129,13 @@ function setupConnection(stream) {
 		remoteVideo.srcObject = event.streams[0];
 		remoteVideo.hidden = false;
 	}; */
-	// stream.getTracks().forEach((track) => {
-    //     yourConn.addTrack(track, stream);
-    // });
+	yourConn.onicecandidateerror = (event) => {
+		console.error('ICE Candidate Error:', event);
+	};
+	/* stream.getTracks().forEach((track) => {
+        yourConn.addTrack(track, stream);
+    }); */
+	yourConn.addStream(stream);
 }
 
 function errorHandler(error) {
@@ -178,8 +174,7 @@ function Login() {
 	localUser = hostnameInput.value;
 	if (localUser.length > 0) {
 		send({
-			type: 'hostlogin',
-			// type: 'login',
+			type: 'login',
 			name: localUser,
 		});
 	} 
@@ -188,14 +183,13 @@ function Login() {
 	}
 }
 
-function handleLogin(success, allhosts /*, share */) {
+function handleLogin(success/*, allhosts , share */) {
 	if (success === false) {
 		alert('Oops...try a different username');
 		return;
 	}
-	
 	else{
-		refreshUserList(allhosts);
+		
 		hostSection.style.display = "none";
 		hostView.style.display = "block";
 		showUsername.innerHTML = hostnameInput.value;
@@ -203,83 +197,46 @@ function handleLogin(success, allhosts /*, share */) {
 	}
 
 }
-/**
- * @param {string[]} users
- */
-function refreshUserList(users) {
-	const allAvailableUsers = users.join(', ');
-	console.log('All available users', allAvailableUsers);
-	
-}
 
-// Define the event handler functions ---server to host offer
+
+// Define the event handler functions
 function handleOffer(offer, name) {
 	console.log('Received offer:', offer);
     console.log('Connected user:', name);
     console.log('YourConn status:', yourConn);
-	if(!yourConn){
-		console.error('yourConn is not initialized.');
-		yourConn = new RTCPeerConnection(peerConnectionConfig);
-		        // 在這裡設定 ICE 候選者回調等
-				yourConn.onicecandidate = (event) => {
-					if (event.candidate) {
-						send({
-							type: 'candidate',
-							name: connectedUser,
-							candidate: event.candidate,
-						});
-					}
-				};
-				yourConn.ontrack = (event) => {
-					console.log('Remote stream received');
-					// 假設有一個遠端視頻元素
-					remoteVideo.srcObject = event.streams[0];
-				};
-				// 如果需要，還可以把本地流添加到 yourConn
-				if (localStream) {
-					localStream.getTracks().forEach((track) => {
-						yourConn.addTrack(track, localStream);
-					});
-				}
-	}
+
 	connectedUser = name;
 	// 設置遠端描述
-	yourConn
-		.setRemoteDescription(new RTCSessionDescription(offer))
-		.then(() => {
-			console.log('Processing candidate queue:', candidateQueue);
-			// 處理 ICE 候選者
-			return yourConn.createAnswer();
-		})
-		.then((answer) => {
-			return yourConn.setLocalDescription(answer);
-		})
-		.then(() =>{
-			console.log('Sending answer to the server');
-            send({
-                type: 'answer',
-                name: connectedUser,
-                answer: yourConn.localDescription,
-            });
-		})
-		.catch(errorHandler);
-}
-	// Create an answer to an offer
-	yourConn
-		.createAnswer()
-		.then((answer) => yourConn.setLocalDescription(answer))
-		.then(() => {
-			console.log('Local description set successfully.');
-			send({
-				type: 'answer',
-				name: connectedUser,
-				answer: yourConn.localDescription,
-			});
-		})
-		.catch((error) => {
-			alert('Error when creating an answer: ' + error);
-		});
+		yourConn
+			.setRemoteDescription(new RTCSessionDescription(offer))
+			.then(() => {
+				console.log('Processing candidate queue:', candidateQueue);
+				// 處理 ICE 候選者
+				while (candidateQueue.length) {
+					const candidate = candidateQueue.shift();
+					console.log('Adding ICE candidate:', candidate);
+					yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
+				}
+			})
+			.catch(errorHandler);
 
+		// Create an answer to an offer
+		yourConn
+			.createAnswer()
+			.then((answer) => yourConn.setLocalDescription(answer))
+			.then(() => {
+				console.log('Local description set successfully.');
+				send({
+					type: 'answer',
+					name: connectedUser,
+					answer: yourConn.localDescription,
+				});
+			})
+			.catch((error) => {
+				alert('Error when creating an answer: ' + error);
+			});
+	
+}
 
 turnOffVideoBtn.addEventListener('click', () => {
     turnOffVideo();
@@ -309,7 +266,8 @@ function turnOffVideo() {
 }
 
 function turnOnVideo() {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
         .then((stream) => {
             localStream = stream;
 
@@ -318,9 +276,11 @@ function turnOnVideo() {
             localVideo.style.display = 'block';
 
             // 添加視訊軌道到 RTCPeerConnection
-            stream.getVideoTracks().forEach((track) => {
+            /* stream.getVideoTracks().forEach((track) => {
                 yourConn.addTrack(track, stream);
-            });
+            }); */
+			yourConn.addStream(stream);
+
         })
         .catch((error) => {
             console.error('Error restarting video:', error);
@@ -328,7 +288,7 @@ function turnOnVideo() {
 }
 
 function handleCandidate(candidate) {
-	if (yourConn.remoteDescription) {
+	if (yourConn.remoteDescription && yourConn.remoteDescription.type) {
 		yourConn.addIceCandidate(new RTCIceCandidate(candidate)).catch(errorHandler);
 	} else {
 		candidateQueue.push(candidate);

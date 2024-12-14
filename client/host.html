@@ -67,7 +67,6 @@
 				<input type="text" id="hostnameInput" class="md-input" placeholder=" " required>
 				<label for="materialInput" class="md-label">船隻名字</label>
 			</div>
-			<h3><span id="allUsers"></span></h3>
 			<button id="startscreem" onclick="Login()" href="javascript: void(0)" class="btn2 from-center">準備開船</button>
 			<a href="/" align="center" href="javascript: void(0)" class="btn2 from-center">回到碼頭</a>
 			</div>
@@ -80,7 +79,7 @@
 			<!--<h2>船長開趴囉~</h2>-->
 			<video id="localVideo" autoplay muted></video>
 			<div class="controls">
-				<b>船長名字:<br><span id="showLocalUserName"></span></b>
+				<b><span id="showLocalUserName">船長名字</span></b>
 				<button class="orange-button" onclick="share('m')">開啟<br />直播</button>
 				<button id="turnOffVideoBtn" class="LightGray-button">關閉<br />鏡頭</button>
 				<button id="turnOnVideoBtn" style="display: none;" class="LightGray-button">開啟<br />鏡頭</button>
@@ -120,6 +119,7 @@
 	</div>
 	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 	<script src="host.js"></script>
+	<script src="chatroom.js"></script>
 	<link rel="stylesheet" href="boat.css">
 </body>
 </html>
