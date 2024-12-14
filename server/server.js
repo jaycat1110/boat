@@ -52,8 +52,8 @@ wss.on('connection', (ws) => {
 		//switching type of the user message
 		switch (data.type) {
 			//when a user tries to login
-			case 'login': {
-				console.log('User logged', data.name);
+			case 'hostlogin': {
+				console.log('Host logged', data.name);
 				if (users[data.name]) {
 					sendTo(ws, {
 						type: 'login',
@@ -62,7 +62,32 @@ wss.on('connection', (ws) => {
 				} else {
 					console.log('save user connection on the server');
 					users[data.name] = ws;
-					allUsers.add(data.name);
+					//allUsers.add(data.name);
+					allhosts.add(data.name);
+
+					ws.name = data.name;
+
+					sendTo(ws, {
+						type: 'login',
+						success: true,
+						//share: data.share,
+						allhosts: Array.from(allhosts),
+					});
+				}
+				break;
+			}
+
+			case 'audiencelogin': {
+				console.log('audience logged', data.name);
+				if (users[data.name]) {
+					sendTo(ws, {
+						type: 'login',
+						success: false,
+					});
+				} else {
+					console.log('save user connection on the server');
+					users[data.name] = ws;
+					//allUsers.add(data.name);
 
 					ws.name = data.name;
 
@@ -77,7 +102,7 @@ wss.on('connection', (ws) => {
 			}
 
 			case 'share': {
-				console.log('available host lists');
+				console.log('available host lists',allhosts);
 				allhosts.add(data.name);
 				notifyUsersChange(data.name);
 				break;

@@ -174,7 +174,7 @@ function Login() {
 	localUser = hostnameInput.value;
 	if (localUser.length > 0) {
 		send({
-			type: 'login',
+			type: 'hostlogin',
 			name: localUser,
 		});
 	} 

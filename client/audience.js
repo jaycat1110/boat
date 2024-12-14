@@ -31,6 +31,7 @@ const chatMessage = document.getElementById("chatMessage");
 const emojiButton = document.getElementById('emojiButton');
 const emojiPicker = document.getElementById('emojiPicker');
 const sendButton = document.getElementById("sendButton");
+const hostvalue =[];
 
 //要包在確認名稱正確的function內
 document.addEventListener("DOMContentLoaded", () => {
@@ -164,34 +165,49 @@ function send(msg) {
 /**
  * @param {'m'} mediaType
  */
+function findhost(){
+	// if(allhosts.includes(localUser)){
+	// share('m');
+	// }
+
+	// else{
+	// 	console.error("can't fine the host");
+	// }
+	share('m');
+}
+
+
+
 function share(mediaType) {
-	if (mediaType === 'm') {
-		navigator.mediaDevices.getUserMedia({
-			video: true,
-			audio: true,
-		}).then(getUserMediaSuccess)
-		.catch((error) => {
-			console.error('Error accessing media devices:', error);
-			alert('Unable to access camera or microphone. Please check your browser permissions.');
-		});
-		send({
-			type: 'share',
-			name: localUser,
-		});
-		audienceChoosing.style.display = "none";
-		audienceView.style.display = "block";//位置需調整
-	} 
-	else {
-		console.error('Invalid mediaType');
+
+		if (mediaType === 'm') {
+			navigator.mediaDevices.getUserMedia({
+				video: true,
+				audio: true,
+			}).then(getUserMediaSuccess)
+			.catch((error) => {
+				console.error('Error accessing media devices:', error);
+				alert('Unable to access camera or microphone. Please check your browser permissions.');
+			});
+			send({
+				type: 'share',
+				name: localUser,
+			});
+			audienceChoosing.style.display = "none";
+			audienceView.style.display = "block";//位置需調整
+		} 
+		else {
+			console.error('Invalid mediaType');
+		}
 	}
 
-}
+
 
 function Login() {
 	localUser = audiencenameInput.value;
 	if (localUser.length > 0) {
 		send({
-			type: 'login',
+			type: 'audiencelogin',
 			name: localUser,
 		});
 	} 
@@ -213,7 +229,6 @@ function handleLogin(success , allhosts/*,  share */) {
 	}
 	refreshUserList(allhosts);
 
-	
 }
 
 function handleOffer(offer, name) {
@@ -293,23 +308,24 @@ function handelHangUp() {
 /**
  * @param {string[]} allhosts
  */
-function refreshUserList(allhosts) {
-	const allAvailableUsers = allhosts && Array.isArray(allhosts) ? allhosts.join(',') : '';
-	console.log('All available users', allAvailableUsers);
-	allhosts.innerHTML = allAvailableUsers;
+function refreshUserList(users) {
+	const allAvailablehosts = users.join(', ');
+	console.log('All available hosts', allAvailablehosts);
+	allhosts.innerHTML = allAvailablehosts;
+
 }
 
-turnOffVideoBtn.addEventListener('click', () => {
-    turnOffVideo();
-    turnOffVideoBtn.style.display = 'none';
-    turnOnVideoBtn.style.display = 'inline';
-});
+// turnOffVideoBtn.addEventListener('click', () => {
+//     turnOffVideo();
+//     turnOffVideoBtn.style.display = 'none';
+//     turnOnVideoBtn.style.display = 'inline';
+// });
 
-turnOnVideoBtn.addEventListener('click', () => {
-    turnOnVideo();
-    turnOffVideoBtn.style.display = 'inline';
-    turnOnVideoBtn.style.display = 'none';
-});
+// turnOnVideoBtn.addEventListener('click', () => {
+//     turnOnVideo();
+//     turnOffVideoBtn.style.display = 'inline';
+//     turnOnVideoBtn.style.display = 'none';
+// });
 
 function turnOffVideo() {
     if (localStream) {
