@@ -93,9 +93,15 @@ function gotMessageFromServer(message) {
         case 'hangup':
 			handelHangUp();
 			break;
-        default:
+	case 'chat':  // 新增處理聊天訊息的情境
+		addMessageToChat(data.name, data.message);
+		break;
+	default:
+		console.log('Unknown message type:', data);
+		break;
+        /*default:
 			console.log(message);
-			break;
+			break;*/
 	}
     serverConnection.onerror = errorHandler;
 }
@@ -318,11 +324,21 @@ function handelHangUp() {
 
 // 送出訊息按鈕事件
 sendButton.addEventListener("click", () => {
-    const message = chatMessage.value.trim();
+    /*const message = chatMessage.value.trim();
     if (message !== "") {
         addMessageToChat("船主❤", message);
         chatMessage.value = ""; // 清空輸入框
-    }
+    }*/
+	const message = chatMessage.value.trim();
+	if (message !== "") {
+	const data = {
+	    type: 'chat',
+	    name: "船主❤", // 假設 localUser 是用戶名
+	    message: message,
+	};
+	socket.send(JSON.stringify(data)); // 發送聊天訊息到 WebSocket 伺服器
+	chatMessage.value = ""; // 清空輸入框
+	}
 });
 
 // 新增訊息到聊天室
