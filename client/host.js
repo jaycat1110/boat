@@ -333,7 +333,7 @@ sendButton.addEventListener("click", () => {
 	if (message !== "") {
 	const data = {
 	    type: 'chat',
-	    name: "船主❤", // 假設 localUser 是用戶名
+	    name: "船主❤" localUser, // 假設 localUser 是用戶名
 	    message: message,
 	};
 	serverConnection.send(JSON.stringify(data));  // 發送聊天訊息到 WebSocket 伺服器
