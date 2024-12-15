@@ -179,12 +179,6 @@ wss.on('connection', (ws) => {
 				}
 				break;
 			}
-			default: {
-				sendTo(ws, {
-					type: 'error',
-					message: 'Command not found: ' + data.type,
-				});
-			}
 
 			// 新增聊天室功能
 			case 'chat': {
@@ -202,6 +196,14 @@ wss.on('connection', (ws) => {
 			}
 			break;
 			}
+			default: {
+				sendTo(ws, {
+					type: 'error',
+					message: 'Command not found: ' + data.type,
+				});
+			}
+
+			
 		}
 	});
 
