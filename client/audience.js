@@ -383,7 +383,7 @@ sendButton.addEventListener("click", () => {
 	    name: localUser, // 假設 localUser 是用戶名
 	    message: message,
 	};
-	socket.send(JSON.stringify(data)); // 發送聊天訊息到 WebSocket 伺服器
+	serverConnection.send(JSON.stringify(data)); // 發送聊天訊息到 WebSocket 伺服器
 	chatMessage.value = ""; // 清空輸入框
 	}
 });
