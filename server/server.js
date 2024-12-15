@@ -185,6 +185,23 @@ wss.on('connection', (ws) => {
 					message: 'Command not found: ' + data.type,
 				});
 			}
+
+			// 新增聊天室功能
+			case 'chat': {
+			console.log(`Chat message from ${data.name}: ${data.message}`);
+			
+			// 廣播訊息給所有用戶
+			for (const client of wss.clients) {
+			    if (client.readyState === WebSocket.OPEN) {
+				sendTo(client, {
+				    type: 'chat',
+				    name: data.name,
+				    message: data.message,
+				});
+			    }
+			}
+			break;
+			}
 		}
 	});
 
