@@ -172,15 +172,17 @@ function send(msg) {
 /**
  * @param {'m'} mediaType
  */
-function findhost(){
-	// if(allhosts.includes(localUser)){
-	// share('m');
-	// }
 
-	// else{
-	// 	console.error("can't fine the host");
-	// }
+let hostsArray = [];
+function findhost(){
+	console.log(hostsArray);
+	if(hostsArray.includes(localUser)){
 	share('m');
+	}
+	else{
+		console.error("can't fine the host");
+	}
+	 share('m');
 }
 
 
@@ -196,10 +198,10 @@ function share(mediaType) {
 				console.error('Error accessing media devices:', error);
 				alert('Unable to access camera or microphone. Please check your browser permissions.');
 			});
-			send({
-				type: 'share',
-				name: localUser,
-			});
+			// send({
+			// 	type: 'share',
+			// 	name: localUser,
+			// });
 			audienceChoosing.style.display = "none";
 			audienceView.style.display = "block";//位置需調整
 		} 
@@ -317,6 +319,8 @@ function handelHangUp() {
  */
 function refreshUserList(users) {
 	const allAvailablehosts = users.join(', ');
+	hostsArray = users.map((host) => host.trim());
+	console.log(hostsArray,localUser);
 	console.log('All available hosts', allAvailablehosts);
 	allhosts.innerHTML = allAvailablehosts;
 
